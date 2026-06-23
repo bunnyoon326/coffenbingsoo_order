@@ -737,7 +737,12 @@ function openSms() {
   const separator = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "&" : "?";
   const recipient = encodeURIComponent(orderSmsRecipient);
   const body = encodeURIComponent(buildMessage());
-  window.location.href = `sms:${recipient}${separator}body=${body}`;
+  const link = document.createElement("a");
+  link.href = `sms:${recipient}${separator}body=${body}`;
+  link.style.display = "none";
+  document.body.append(link);
+  link.click();
+  link.remove();
 }
 
 function hideStadiumMagnifier() {
@@ -753,10 +758,11 @@ function updateStadiumMagnifier(event) {
   const rect = stadiumMap.getBoundingClientRect();
   const lensSize = stadiumMagnifier.offsetWidth || 132;
   const zoom = 2.35;
+  const lensOffset = 18;
   const x = Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
   const y = Math.min(Math.max(event.clientY - rect.top, 0), rect.height);
-  const lensLeft = Math.min(Math.max(x - lensSize / 2, 8), rect.width - lensSize - 8);
-  const lensTop = Math.min(Math.max(y - lensSize / 2, 8), rect.height - lensSize - 8);
+  const lensLeft = Math.min(Math.max(x - lensSize - lensOffset, 8), rect.width - lensSize - 8);
+  const lensTop = Math.min(Math.max(y + lensOffset, 8), rect.height - lensSize - 8);
   const backgroundWidth = rect.width * zoom;
   const backgroundHeight = rect.height * zoom;
   const backgroundX = Math.min(Math.max(x * zoom - lensSize / 2, 0), backgroundWidth - lensSize);
@@ -1087,13 +1093,14 @@ placeOrderButton.addEventListener("click", async () => {
   }
 
   updatePlaceOrder();
+  const copyPromise = copyMessage();
+  openSms();
   try {
-    await copyMessage();
-    showToast("주문 내용이 복사되었어요. 문자 앱을 열게요.");
+    await copyPromise;
+    showToast("주문 내용이 복사되었어요.");
   } catch {
-    showToast("문자 앱을 열게요. 필요하면 미리보기 내용을 복사해주세요.");
+    showToast("문자 앱을 열었어요. 필요하면 미리보기 내용을 복사해주세요.");
   }
-  window.setTimeout(openSms, 350);
 });
 
 placeRestartButton.addEventListener("click", () => goTo("home"));
