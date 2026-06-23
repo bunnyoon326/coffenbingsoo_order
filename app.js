@@ -309,6 +309,7 @@ let seatPickerDragStartY = 0;
 let seatPickerWasDragged = false;
 let seatPickerMouseDragging = false;
 let categoryTabsDragStartX = 0;
+let categoryTabsDragStartY = 0;
 let categoryTabsDragStartScroll = 0;
 let categoryTabsIsDragging = false;
 let categoryTabsSuppressClick = false;
@@ -854,6 +855,7 @@ categoryTabs.addEventListener("pointerdown", (event) => {
   categoryTabsIsDragging = true;
   categoryTabsSuppressClick = false;
   categoryTabsDragStartX = event.clientX;
+  categoryTabsDragStartY = event.clientY;
   categoryTabsDragStartScroll = categoryTabs.scrollLeft;
   categoryTabs.classList.add("is-dragging");
   categoryTabs.setPointerCapture(event.pointerId);
@@ -862,10 +864,12 @@ categoryTabs.addEventListener("pointerdown", (event) => {
 categoryTabs.addEventListener("pointermove", (event) => {
   if (!categoryTabsIsDragging) return;
   const deltaX = event.clientX - categoryTabsDragStartX;
-  if (Math.abs(deltaX) > 4) {
+  const deltaY = event.clientY - categoryTabsDragStartY;
+  const isHorizontalDrag = Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY);
+  if (isHorizontalDrag) {
     categoryTabsSuppressClick = true;
+    categoryTabs.scrollLeft = categoryTabsDragStartScroll - deltaX;
   }
-  categoryTabs.scrollLeft = categoryTabsDragStartScroll - deltaX;
 });
 
 categoryTabs.addEventListener("pointerup", (event) => {
