@@ -1,0 +1,1592 @@
+:root {
+  --ink: #151515;
+  --muted: #77736f;
+  --line: #e7e0d9;
+  --paper: #fffaf5;
+  --surface: #ffffff;
+  --accent: #e6432f;
+  --accent-dark: #bf2f20;
+  --cream: #f7efe5;
+  --mint: #d8efe2;
+  --yellow: #ffd56b;
+  --shadow: 0 16px 42px rgba(51, 32, 20, 0.12);
+}
+
+@font-face {
+  font-family: "KoreaInstituteOfMachineryAndMaterials";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KoreaInstituteOfMachineryAndMaterials";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2") format("woff2");
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-6SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-7Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Paperozi";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2") format("woff2");
+  font-weight: 900;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #ece7e0;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(230, 67, 47, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(230, 67, 47, 0.05) 1px, transparent 1px),
+    #ece7e0;
+  background-size: 32px 32px;
+  font-family: "Paperozi", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+}
+
+body.is-seat-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body.is-menu-screen {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  position: relative;
+  width: min(100%, 402px);
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  background: #f5f5f5;
+  box-shadow: var(--shadow);
+}
+
+.app-shell.is-seat-screen {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.app-shell.is-menu-screen {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  .app-shell.is-seat-screen {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  .app-shell.is-menu-screen {
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+  height: calc(54px + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) 16px 0 8px;
+  background: transparent;
+  border-bottom: 0;
+  backdrop-filter: none;
+}
+
+.app-shell.is-home .top-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  padding: 5px 10px;
+  display: flex;
+  border-bottom: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.app-shell.is-home .icon-button,
+.app-shell.is-home .step-label {
+  display: none;
+}
+
+.app-shell.is-home .bottom-bar {
+  display: none !important;
+}
+
+.icon-button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  background: transparent;
+  font-size: 34px;
+  line-height: 34px;
+}
+
+.icon-button:disabled {
+  color: transparent;
+}
+
+.brand-mark {
+  justify-self: start;
+  width: 70px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.step-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.screen {
+  display: none;
+  min-height: calc(100dvh - 54px);
+  padding: 26px 30px 96px;
+}
+
+.screen.is-active {
+  display: block;
+}
+
+.screen[data-screen="home"] {
+  min-height: 874px;
+  padding: 80px 30px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  max-width: 300px;
+  font-size: 31px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.main-visual {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #ececec;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.main-visual.is-dragging {
+  cursor: grabbing;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(100%);
+  transition: transform 0.45s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+.main-visual.is-dragging .slide {
+  transition: none;
+}
+
+.choice-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 42px;
+}
+
+.choice-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 72px;
+  padding: 20px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 30px;
+  color: var(--surface);
+  background: #df4444;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  text-decoration: none;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.choice-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 12px;
+  height: 24px;
+  font-family: Arial, sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.choice-button.secondary {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.screen[data-screen="seat"] {
+  position: relative;
+  height: calc(100dvh - 54px - env(safe-area-inset-top));
+  min-height: 0;
+  padding-top: 26px;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.screen[data-screen="seat"].is-active {
+  display: flex;
+  flex-direction: column;
+}
+
+.screen[data-screen="seat"] h2 {
+  flex: 0 0 auto;
+  margin-bottom: 20px;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+}
+
+.stadium-map {
+  flex: 0 0 auto;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2583 / 2371;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 30px;
+  background: #ececec;
+  cursor: zoom-in;
+  touch-action: none;
+  user-select: none;
+}
+
+.stadium-map img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.stadium-magnifier {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  display: none;
+  width: 132px;
+  height: 132px;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background-image: url("./images/seat_2026_zoom.png");
+  background-repeat: no-repeat;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.stadium-map.is-magnifying .stadium-magnifier {
+  display: block;
+}
+
+@media (max-width: 360px) {
+  .stadium-magnifier {
+    width: 116px;
+    height: 116px;
+  }
+}
+
+.seat-picker-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 168px;
+  max-height: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+  border-radius: 30px 30px 0 0;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition:
+    height 260ms ease,
+    max-height 260ms ease,
+    min-height 260ms ease,
+    flex-basis 260ms ease;
+}
+
+.seat-picker-handle {
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border: 0;
+  background: var(--surface);
+  cursor: grab;
+  touch-action: none;
+}
+
+.seat-picker-handle:active {
+  cursor: grabbing;
+}
+
+.seat-picker-handle span {
+  display: block;
+  width: 47px;
+  height: 5px;
+  border-radius: 999px;
+  background: #d9d9d9;
+}
+
+.seat-picker {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 20px 20px;
+  scrollbar-width: thin;
+}
+
+.seat-detail {
+  flex: 0 0 auto;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.screen[data-screen="seat"].has-seat-detail {
+  height: calc(100dvh - 54px - env(safe-area-inset-top));
+  min-height: 0;
+  overflow: hidden;
+}
+
+.screen[data-screen="seat"].has-seat-detail h2 {
+  margin-bottom: 12px;
+}
+
+.screen[data-screen="seat"].has-seat-detail .stadium-map {
+  margin-bottom: 12px;
+}
+
+.screen[data-screen="seat"].has-seat-detail .seat-detail {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 0;
+  padding-bottom: 150px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.screen[data-screen="seat"].has-seat-detail #seatNext {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  bottom: 84px;
+  z-index: 25;
+  width: auto;
+  box-shadow: 0 8px 18px rgba(223, 68, 68, 0.16);
+}
+
+.screen[data-screen="seat"].has-seat-detail .seat-picker-shell {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  flex: none;
+  height: 72px;
+  min-height: 72px;
+  max-height: 72px;
+}
+
+.screen[data-screen="seat"].has-seat-detail.is-picker-expanded .seat-picker-shell {
+  height: min(74dvh, 560px);
+  min-height: min(74dvh, 560px);
+  max-height: min(74dvh, 560px);
+}
+
+.selected-seat-name {
+  display: flex;
+  align-items: center;
+  min-height: 41px;
+  margin: 0 0 10px;
+  font-family: "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+}
+
+.screen[data-screen="seat"].has-seat-detail .selected-seat-name {
+  min-height: 34px;
+  margin-bottom: 6px;
+}
+
+.seat-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 41px;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 0.5px solid rgba(221, 221, 221, 0.55);
+  color: var(--ink);
+  background: transparent;
+  text-align: left;
+  font-family: "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+}
+
+.seat-option:last-child {
+  border-bottom: 0;
+}
+
+.seat-option.is-selected {
+  font-weight: 800;
+}
+
+.seat-option.is-selected .seat-dot {
+  box-shadow: none;
+}
+
+.seat-option.is-selected .seat-dot-img {
+  box-shadow: none;
+}
+
+.seat-dot {
+  flex: 0 0 auto;
+  display: block;
+  overflow: hidden;
+  width: 16px;
+  height: 16px;
+  margin-right: 15px;
+  border-radius: 50%;
+  background: var(--seat-color);
+  border: 0;
+}
+
+.seat-dot-img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.screen[data-screen="seatConfirm"] {
+  min-height: 874px;
+  padding: 26px 30px 96px;
+}
+
+.screen[data-screen="seatConfirm"] h2 {
+  margin-bottom: 20px;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+}
+
+.seat-confirm-card {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.seat-confirm-zone {
+  display: flex;
+  align-items: center;
+  min-height: 41px;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+}
+
+.seat-confirm-tags {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.seat-confirm-tags span {
+  flex: 0 0 auto;
+  padding: 2px 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
+}
+
+.seat-confirm-tags span:first-child {
+  padding-left: 0;
+}
+
+.seat-confirm-tags span:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+
+.seat-confirm-description {
+  margin: 10px 0 0;
+  color: #444;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.15px;
+}
+
+.seat-confirm-copy {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 25px 0;
+  text-align: center;
+}
+
+.seat-confirm-copy p {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.18px;
+}
+
+.seat-confirm-copy span {
+  color: #a8a8a8;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.18px;
+}
+
+.seat-confirm-actions {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.seat-confirm-primary,
+.seat-confirm-secondary {
+  width: 100%;
+  height: 49px;
+  border-radius: 10px;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.18px;
+}
+
+.seat-confirm-primary {
+  border: 0;
+  color: var(--surface);
+  background: #df4444;
+}
+
+.seat-confirm-secondary {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #444;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.field-label,
+.seat-grid label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface);
+}
+
+select,
+input {
+  height: 48px;
+  padding: 0 14px;
+}
+
+textarea {
+  resize: vertical;
+  padding: 13px 14px;
+  line-height: 1.45;
+}
+
+.seat-grid {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 10px;
+}
+
+.screen[data-screen="seat"].has-seat-detail .seat-grid {
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.seat-grid label {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: center;
+  gap: 20px;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.18px;
+}
+
+.seat-grid label:nth-child(2) {
+  grid-template-columns: 16px 1fr;
+  gap: 36px;
+}
+
+.seat-grid input {
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.seat-grid .seat-description-row {
+  align-items: start;
+}
+
+.seat-grid .seat-description-row textarea {
+  min-height: 72px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  resize: none;
+}
+
+.screen[data-screen="seat"].has-seat-detail .seat-grid .seat-description-row textarea {
+  min-height: 52px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.primary-button,
+.order-button,
+.cart-button {
+  height: 52px;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 900;
+}
+
+.primary-button {
+  width: 100%;
+  color: var(--surface);
+  background: #df4444;
+  border-radius: 10px;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.18px;
+}
+
+.screen[data-screen="menu"] {
+  position: relative;
+  height: calc(100dvh - 54px - env(safe-area-inset-top));
+  min-height: 0;
+  min-width: 0;
+  padding: 26px 30px 0;
+  background: #f5f5f5;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.screen[data-screen="menu"].is-active {
+  display: flex;
+  flex-direction: column;
+}
+
+.screen[data-screen="menu"] h2 {
+  position: relative;
+  z-index: 25;
+  flex: 0 0 auto;
+  margin-bottom: 20px;
+  text-align: center;
+  background: #f5f5f5;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 25px;
+  letter-spacing: -1.2px;
+}
+
+.tabs {
+  position: relative;
+  z-index: 25;
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+  width: calc(100% + 60px);
+  max-width: calc(100% + 60px);
+  min-width: 0;
+  margin: 0 -30px 20px;
+  padding: 0 20px;
+  background: #f5f5f5;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-x;
+}
+
+.tabs.is-dragging {
+  cursor: grabbing;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  flex: 0 0 auto;
+  min-width: 92px;
+  height: 41px;
+  padding: 0 18px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  color: #444;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
+}
+
+.tab-button.is-active {
+  color: var(--surface);
+  background: #df4444;
+}
+
+.tab-button[data-category="noncoffee"] {
+  min-width: 108px;
+}
+
+.subtabs {
+  position: relative;
+  z-index: 25;
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: -8px 0 20px;
+  background: #f5f5f5;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.subtabs::-webkit-scrollbar {
+  display: none;
+}
+
+.subtab-button {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 17px;
+  color: #444;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.14px;
+  white-space: nowrap;
+}
+
+.subtab-button.is-active {
+  color: var(--surface);
+  background: #444;
+}
+
+.menu-list {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  display: grid;
+  grid-auto-rows: 100px;
+  align-content: start;
+  align-items: start;
+  gap: 20px;
+  min-height: 0;
+  margin: 0 -30px;
+  padding: 0 30px calc(88px + env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.menu-item {
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 342px;
+  height: 100px;
+}
+
+.menu-thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--thumb), white 72%);
+  overflow: hidden;
+}
+
+.menu-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-item.is-sold-out .menu-thumb img {
+  filter: grayscale(1);
+  opacity: 0.52;
+}
+
+.sold-out-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  min-width: 58px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: var(--surface);
+  background: rgba(21, 21, 21, 0.76);
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.15px;
+  transform: translate(-50%, -50%);
+}
+
+.menu-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 0;
+  height: 100px;
+}
+
+.menu-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  height: 21px;
+  min-height: 21px;
+  color: #151515;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.18px;
+}
+
+.menu-head span:first-child {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.menu-head span:last-child {
+  flex: 0 0 auto;
+}
+
+.menu-desc {
+  margin-top: 5px;
+  color: var(--muted);
+  display: -webkit-box;
+  height: 28px;
+  min-height: 28px;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: -0.12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.quantity {
+  display: grid;
+  grid-template-columns: 34px 34px 34px;
+  align-items: center;
+  justify-content: end;
+  width: 103px;
+  height: 34px;
+  margin: auto 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.quantity button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #151515;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.quantity output {
+  color: #151515;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.quantity.is-disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.quantity button:disabled {
+  color: #bcbcbc;
+  cursor: not-allowed;
+}
+
+.screen[data-screen="cart"],
+.screen[data-screen="review"],
+.screen[data-screen="placeOrder"] {
+  min-height: calc(100dvh - 54px);
+  padding: 26px 30px 84px;
+  background: #f5f5f5;
+}
+
+.screen[data-screen="review"],
+.screen[data-screen="placeOrder"] {
+  padding-bottom: 56px;
+}
+
+.screen[data-screen="cart"] h2,
+.screen[data-screen="review"] h2,
+.screen[data-screen="placeOrder"] h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #000;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -1.2px;
+}
+
+.cart-card,
+.review-order-card,
+.request-card,
+.place-message-card {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.cart-card,
+.review-order-card {
+  padding: 0 20px;
+}
+
+.cart-row,
+.review-order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid rgba(221, 221, 221, 0.55);
+}
+
+.cart-row {
+  min-height: 82px;
+  padding: 20px 0;
+}
+
+.cart-row.is-last,
+.review-order-row.is-last {
+  border-bottom: 0;
+}
+
+.cart-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: min(168px, calc(100% - 132px));
+  min-width: 0;
+  color: #000;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cart-row-copy p {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #000;
+  font-size: 18px;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
+}
+
+.cart-row-copy span {
+  color: #bcbcbc;
+  font-size: 14px;
+  letter-spacing: -0.14px;
+}
+
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-width: 103px;
+  height: 34px;
+  padding: 10px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50px;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.12px;
+  white-space: nowrap;
+}
+
+.cart-quantity button {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  color: #df4444;
+  background: transparent;
+  line-height: 1;
+}
+
+.cart-quantity output {
+  min-width: 8px;
+  color: #000;
+  text-align: center;
+  line-height: 1;
+}
+
+.cart-total-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0 20px;
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
+}
+
+.cart-total-count strong {
+  font-weight: 500;
+}
+
+.review-order-row {
+  min-height: 61px;
+  padding: 20px 0;
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+
+.review-order-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-order-row strong {
+  flex: 0 0 auto;
+  margin-left: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.review-request-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 20px auto;
+  color: #000;
+  text-align: center;
+}
+
+.review-request-title p {
+  margin: 0;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -1.2px;
+}
+
+.review-request-title span {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.12px;
+}
+
+.request-card {
+  display: block;
+  height: 300px;
+  padding: 20px;
+  resize: none;
+  color: #151515;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+}
+
+.place-message-card {
+  display: block;
+  height: 300px;
+  padding: 20px;
+  resize: none;
+  color: #717171;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.16px;
+  white-space: pre-wrap;
+}
+
+.request-card::placeholder {
+  color: #717171;
+  opacity: 1;
+}
+
+.place-guide {
+  display: grid;
+  gap: 20px;
+  padding: 20px 0;
+  color: #000;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+
+.review-actions,
+.place-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.review-primary-action,
+.review-secondary-action,
+.place-primary-action,
+.place-secondary-action {
+  width: 100%;
+  min-height: 49px;
+  border-radius: 10px;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+
+.review-primary-action,
+.place-primary-action {
+  border: 0;
+  color: var(--surface);
+  background: #df4444;
+}
+
+.review-secondary-action,
+.place-secondary-action {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #444;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+.summary-block {
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.summary-title {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+#orderSummary {
+  display: grid;
+  gap: 7px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+#review .field-label,
+#review textarea,
+#review input {
+  margin-top: 12px;
+}
+
+#review .request-card {
+  margin-top: 0;
+}
+
+.bottom-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 35;
+  display: grid;
+  grid-template-columns: 196px 103px 103px;
+  width: min(100%, 402px);
+  min-height: calc(60px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top: 0;
+  background: var(--surface);
+  box-shadow: 0 -5px 50px rgba(0, 0, 0, 0.3);
+}
+
+.total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 11px;
+  background: var(--surface);
+}
+
+.total-box span {
+  color: #151515;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.18px;
+}
+
+.total-box strong {
+  color: #151515;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.18px;
+}
+
+.cart-button,
+.order-button {
+  height: 60px;
+  border-radius: 0;
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.18px;
+}
+
+.cart-button {
+  color: #444;
+  background: var(--surface);
+  box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.05);
+}
+
+.app-shell.is-cart-screen .cart-button {
+  color: #000;
+  background: #ddd;
+}
+
+.app-shell.is-cart-screen .order-button {
+  color: #000;
+}
+
+.order-button {
+  color: var(--surface);
+  background: #df4444;
+}
+
+.order-button:disabled,
+.cart-button:disabled {
+  color: #aaa;
+  background: #e8e2dc;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(82px + env(safe-area-inset-bottom));
+  z-index: 40;
+  max-width: min(342px, calc(100% - 40px));
+  transform: translate(-50%, 16px);
+  padding: 12px 16px;
+  border-radius: 999px;
+  color: var(--surface);
+  background: rgba(21, 21, 21, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (min-width: 431px) {
+  body {
+    padding: 28px 0;
+  }
+
+  .app-shell {
+    min-height: min(874px, calc(100vh - 56px));
+    border-radius: 24px;
+  }
+
+  .top-bar {
+    border-radius: 24px 24px 0 0;
+  }
+
+  .bottom-bar {
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .screen {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .tabs {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: calc(100% + 40px);
+    max-width: calc(100% + 40px);
+  }
+
+  .bottom-bar {
+    grid-template-columns: 1fr 88px 100px;
+  }
+
+  .menu-item {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .menu-thumb {
+    width: 82px;
+    height: 82px;
+  }
+}

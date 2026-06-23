@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>커빙 주문서</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="top-bar">
+        <button class="icon-button" id="backButton" type="button" aria-label="이전 단계">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <img
+          class="brand-mark"
+          src="./images/main/logo.png"
+          alt="커빙"
+        />
+        <div class="step-label" id="stepLabel">주문 시작</div>
+      </header>
+
+      <section class="screen is-active" data-screen="home">
+        <div class="main-visual" aria-label="커빙 메인 배너">
+          <img class="slide is-active" src="./images/main/260518_007.png" alt="" />
+          <img class="slide" src="./images/main/260518_008.png" alt="" />
+          <img class="slide" src="./images/main/260518_009.png" alt="" />
+        </div>
+        <div class="choice-list">
+          <button class="choice-button" type="button" data-start-order>
+            <span>좌석으로 배달받기</span>
+            <span class="choice-arrow" aria-hidden="true">›</span>
+          </button>
+          <a class="choice-button secondary" href="https://ws.yogiyo.co.kr/1yso4h9" target="_blank" rel="noreferrer">
+            <span>요기요로 픽업주문</span>
+            <span class="choice-arrow" aria-hidden="true">›</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="seat">
+        <h2>좌석정보입력</h2>
+        <div class="stadium-map" aria-label="경기장 좌석 안내도">
+          <img src="./images/seat_2026_zoom.png" alt="경기장 좌석 안내도" draggable="false" />
+          <div class="stadium-magnifier" id="stadiumMagnifier" aria-hidden="true"></div>
+        </div>
+
+        <div class="seat-detail" id="seatDetail" hidden>
+          <p class="selected-seat-name" id="selectedSeatName"></p>
+          <div class="seat-grid">
+            <label>
+              블럭
+              <input id="seatBlock" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+            </label>
+            <label>
+              열
+              <input id="seatRow" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+            </label>
+            <label>
+              번호
+              <input id="seatNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+            </label>
+            <label class="seat-description-row">
+              설명
+              <textarea id="seatDescription" rows="3" placeholder="자세한 좌석 위치를 설명해주세요."></textarea>
+            </label>
+          </div>
+          <button class="primary-button" id="seatNext" type="button">좌석정보 입력완료</button>
+        </div>
+
+        <div class="seat-picker-shell" id="seatPickerShell">
+          <button class="seat-picker-handle" id="seatPickerHandle" type="button" aria-label="좌석 구역 목록 열기">
+            <span aria-hidden="true"></span>
+          </button>
+          <div class="seat-picker" id="seatType" role="listbox" aria-label="좌석 구역"></div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="seatConfirm">
+        <h2>좌석정보확인</h2>
+        <div class="seat-confirm-card">
+          <div class="seat-confirm-zone" id="confirmSeatZone"></div>
+          <div class="seat-confirm-tags">
+            <span id="confirmSeatBlock"></span>
+            <span id="confirmSeatRow"></span>
+            <span id="confirmSeatNumber"></span>
+          </div>
+          <p class="seat-confirm-description" id="confirmSeatDescription" hidden></p>
+        </div>
+        <div class="seat-confirm-copy">
+          <p>여기로 배달해드리면 될까요?</p>
+          <span>입력하신 좌석 정보를 확인해주세요.</span>
+        </div>
+        <div class="seat-confirm-actions">
+          <button class="seat-confirm-primary" id="seatConfirmYes" type="button">네 여기가 맞아요.</button>
+          <button class="seat-confirm-secondary" id="seatConfirmRetry" type="button">좌석을 다시 선택할게요.</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="menu">
+        <h2>메뉴 선택하기</h2>
+        <div class="tabs" id="categoryTabs" role="tablist" aria-label="메뉴 카테고리"></div>
+        <div class="subtabs" id="menuSubTabs" role="tablist" aria-label="메뉴 세부 카테고리" hidden></div>
+        <div class="menu-list" id="menuList"></div>
+      </section>
+
+      <section class="screen" data-screen="cart">
+        <h2>장바구니</h2>
+        <div class="cart-card" id="cartSummary"></div>
+        <div class="cart-total-count">
+          <span>총 주문 수량</span>
+          <strong id="cartTotalCount">0</strong>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="review">
+        <h2>주문 내역 확인</h2>
+        <div class="review-order-card" id="orderSummary"></div>
+        <div class="review-request-title">
+          <p>주문 요청 사항 입력</p>
+          <span>※ 샷 추가, 바닐라/헤이즐럿 시럽 추가 : 500원<br />빙수 팥추가 : 1,000원</span>
+        </div>
+        <textarea
+          class="request-card"
+          id="requestMemo"
+          rows="8"
+          placeholder="샷 추가, 연하게, 빙수 팥 제거 등 주문 요청사항을 입력해주세요.&#10;&#10;ex)&#10;아이스 아메리카노 1개 - 샷 추가, 시럽추가 /&#10;오레오빙수 - 팥 빼고 /&#10;레트로빙수 - 견과류 빼고"
+        ></textarea>
+        <div class="review-actions">
+          <button class="review-primary-action" id="requestCompleteButton" type="button">요청사항 입력 완료</button>
+          <button class="review-secondary-action" id="reviewBackToCart" type="button">장바구니로 돌아가기</button>
+        </div>
+        <p class="visually-hidden" id="seatSummary"></p>
+        <input class="visually-hidden" id="smsPhone" type="tel" inputmode="tel" />
+        <textarea class="visually-hidden" id="messagePreview" readonly></textarea>
+      </section>
+
+      <section class="screen" data-screen="placeOrder">
+        <h2>주문하기</h2>
+        <textarea class="place-message-card" id="finalMessagePreview" readonly></textarea>
+        <div class="place-guide">
+          <p>주문버튼을 클릭하시면,<br />주문 내용이 자동으로 복사되어<br />문자메시지 어플로 이동합니다.</p>
+          <p>내용을 확인하시고 메시지를 전송해주세요.</p>
+          <p>결제는 음식배달 후 좌석에서<br />배달원에게 직접 진행해주세요.</p>
+        </div>
+        <div class="place-actions">
+          <button class="place-primary-action" id="placeOrderButton" type="button">바로 주문할게요</button>
+          <button class="place-secondary-action" id="placeRestartButton" type="button">처음으로 돌아가기</button>
+        </div>
+      </section>
+
+      <footer class="bottom-bar" id="bottomBar" hidden>
+        <div class="total-box">
+          <span>합계</span>
+          <strong id="totalPrice">0원</strong>
+        </div>
+        <button class="cart-button" id="reviewButton" type="button">장바구니</button>
+        <button class="order-button" id="orderButton" type="button">주문할게요</button>
+      </footer>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
