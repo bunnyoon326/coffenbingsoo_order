@@ -392,8 +392,14 @@ h2 {
 
 .seat-scroll-body {
   flex: 0 0 auto;
+  width: 100%;
   min-width: 0;
   min-height: 0;
+  scrollbar-width: none;
+}
+
+.seat-scroll-body::-webkit-scrollbar {
+  display: none;
 }
 
 .screen[data-screen="seat"] h2 {
@@ -402,6 +408,7 @@ h2 {
   font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
   font-size: 24px;
   font-weight: 700;
+  line-height: 25px;
   letter-spacing: -1.2px;
 }
 
@@ -461,7 +468,9 @@ h2 {
 .seat-picker-shell {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  position: relative;
+  left: -30px;
+  width: calc(100% + 60px);
   flex: 1 1 auto;
   min-height: 168px;
   max-height: none;
@@ -470,21 +479,24 @@ h2 {
   overflow: hidden;
   border-radius: 30px 30px 0 0;
   background: var(--surface);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 50px 20px rgba(0, 0, 0, 0.2);
   transition:
     height 260ms ease,
     max-height 260ms ease,
     min-height 260ms ease,
-    flex-basis 260ms ease;
+    flex-basis 260ms ease,
+    top 260ms ease,
+    transform 260ms ease;
 }
 
 .seat-picker-handle {
-  flex: 0 0 52px;
+  flex: 0 0 33px;
   display: grid;
-  place-items: center;
+  align-items: start;
+  justify-items: center;
   width: 100%;
-  min-height: 52px;
-  padding: 14px 20px 13px;
+  min-height: 33px;
+  padding: 10px 20px 20px;
   border: 0;
   border-radius: 30px 30px 0 0;
   -webkit-appearance: none;
@@ -501,10 +513,10 @@ h2 {
 
 .seat-picker-handle span {
   display: block;
-  width: 47px;
-  height: 5px;
+  width: 50px;
+  height: 3px;
   border-radius: 999px;
-  background: #d9d9d9;
+  background: #717171;
 }
 
 .seat-picker {
@@ -512,7 +524,7 @@ h2 {
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 6px 20px 20px;
+  padding: 0 50px 20px;
   scrollbar-width: thin;
 }
 
@@ -523,6 +535,7 @@ h2 {
   bottom: 0;
   z-index: 30;
   flex: none;
+  width: auto;
   height: min(74dvh, 560px);
   min-height: min(74dvh, 560px);
   max-height: min(74dvh, 560px);
@@ -530,6 +543,8 @@ h2 {
 
 .seat-detail {
   flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin-bottom: 0;
 }
@@ -543,18 +558,10 @@ h2 {
 .screen[data-screen="seat"].has-seat-detail .seat-scroll-body {
   flex: 1 1 auto;
   min-height: 0;
-  padding-bottom: 110px;
+  padding-bottom: 260px;
   overflow-x: hidden;
   overflow-y: auto;
-  scrollbar-width: thin;
-}
-
-.screen[data-screen="seat"].has-seat-detail h2 {
-  margin-bottom: 12px;
-}
-
-.screen[data-screen="seat"].has-seat-detail .stadium-map {
-  margin-bottom: 12px;
+  scrollbar-width: none;
 }
 
 .screen[data-screen="seat"].has-seat-detail .seat-detail {
@@ -566,8 +573,10 @@ h2 {
 
 .screen[data-screen="seat"].has-seat-detail #seatNext {
   position: static;
-  width: 100%;
-  margin-top: 16px;
+  align-self: center;
+  width: min(100%, 342px);
+  height: 49px;
+  margin: 18px auto 36px;
   box-shadow: 0 8px 18px rgba(223, 68, 68, 0.16);
 }
 
@@ -578,15 +587,24 @@ h2 {
   bottom: 0;
   z-index: 30;
   flex: none;
-  height: 90px;
-  min-height: 90px;
-  max-height: 90px;
+  width: auto;
+  height: 68px;
+  min-height: 68px;
+  max-height: 68px;
 }
 
 .screen[data-screen="seat"].has-seat-detail.is-picker-expanded .seat-picker-shell {
-  height: min(74dvh, 560px);
-  min-height: min(74dvh, 560px);
-  max-height: min(74dvh, 560px);
+  top: max(0px, calc(30dvh - 54px - env(safe-area-inset-top)));
+  bottom: 0;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+}
+
+@supports not (height: 100dvh) {
+  .screen[data-screen="seat"].has-seat-detail.is-picker-expanded .seat-picker-shell {
+    top: max(0px, calc(30vh - 54px - env(safe-area-inset-top)));
+  }
 }
 
 .selected-seat-name {
@@ -598,11 +616,6 @@ h2 {
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.18px;
-}
-
-.screen[data-screen="seat"].has-seat-detail .selected-seat-name {
-  min-height: 34px;
-  margin-bottom: 6px;
 }
 
 .seat-option {
@@ -819,8 +832,8 @@ textarea {
 }
 
 .screen[data-screen="seat"].has-seat-detail .seat-grid {
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 0;
 }
 
 .seat-grid label {
@@ -859,9 +872,10 @@ textarea {
 }
 
 .screen[data-screen="seat"].has-seat-detail .seat-grid .seat-description-row textarea {
-  min-height: 52px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  height: 58px;
+  min-height: 58px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 .primary-button,

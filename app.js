@@ -128,8 +128,8 @@ const categories = [
     id: "alcohol",
     label: "주류",
     items: [
-      ["draft-beer", "생맥주", 10000, "시원하게 즐기는 부드러운 생맥주", "#f0b43c"],
-      ["can-beer", "캔맥주", 4000, "가볍게 곁들이기 좋은 시원한 캔맥주", "#eccd55"],
+      ["draft-beer", "생맥주 1L", 10000, "시원하게 즐기는 부드러운 생맥주", "#f0b43c"],
+      ["can-beer", "캔맥주 500ml", 4000, "가볍게 곁들이기 좋은 시원한 캔맥주", "#eccd55"],
       ["extra-cup", "컵추가", 1000, "함께 나눠 마시기 좋은 추가 컵", "#d8c8b3"],
     ],
   },
@@ -369,6 +369,14 @@ function stripBracketText(text) {
 }
 
 function getMessageItemLabel(item) {
+  const messageItemNames = {
+    "draft-beer": "생맥주",
+    "can-beer": "캔맥주",
+  };
+  if (messageItemNames[item.id]) {
+    return messageItemNames[item.id];
+  }
+
   const name = stripBracketText(item.name);
   if ((item.category === "coffee" || item.category === "noncoffee") && item.subCategory) {
     const optionLabels = {
@@ -606,6 +614,32 @@ function scrollSeatInputIntoView(input) {
 
   window.requestAnimationFrame(scrollToTarget);
   window.setTimeout(scrollToTarget, 280);
+}
+
+function settleSeatDetailView() {
+  if (state.screen !== "seat" || !state.seatDetailsOpen) {
+    return;
+  }
+
+  const scrollToDetail = () => {
+    const containerRect = seatScrollBody.getBoundingClientRect();
+    const detailRect = seatDetail.getBoundingClientRect();
+    const pickerRect = seatPickerShell.getBoundingClientRect();
+    const visibleTop = containerRect.top;
+    const visibleBottom = Math.min(pickerRect.top, window.innerHeight) - 24;
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const desiredTop = visibleTop + Math.max(16, (visibleHeight - detailRect.height) * 0.55);
+    const maxScrollTop = Math.max(0, seatScrollBody.scrollHeight - seatScrollBody.clientHeight);
+    const nextTop = seatScrollBody.scrollTop + detailRect.top - desiredTop;
+
+    seatScrollBody.scrollTo({
+      top: Math.min(maxScrollTop, Math.max(0, nextTop)),
+      behavior: "smooth",
+    });
+  };
+
+  window.requestAnimationFrame(scrollToDetail);
+  window.setTimeout(scrollToDetail, 280);
 }
 
 function setSeatPickerExpanded(expanded) {
@@ -1043,6 +1077,7 @@ seatType.addEventListener("click", (event) => {
     seatDescription.value = "";
   }
   renderSeatOptions();
+  settleSeatDetailView();
   if (state.screen === "review") {
     updateReview();
   }
