@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>커빙 주문서</title>
+    <title>커빙 :: 좌석배달 문자작성 서비스</title>
+    <meta name="description" content="문자 전송 후 매장 확인 답변을 받으셔야 주문이 확정됩니다." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="커빙 :: 좌석배달 문자작성 서비스" />
+    <meta property="og:description" content="문자 전송 후 매장 확인 답변을 받으셔야 주문이 확정됩니다." />
+    <meta property="og:image" content="./images/og-images.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="커빙 :: 좌석배달 문자작성 서비스" />
+    <meta name="twitter:description" content="문자 전송 후 매장 확인 답변을 받으셔야 주문이 확정됩니다." />
+    <meta name="twitter:image" content="./images/og-images.jpg" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -150,6 +159,20 @@
           <button class="place-primary-action" id="placeOrderButton" type="button">바로 주문할게요</button>
           <button class="place-secondary-action" id="placeRestartButton" type="button">처음으로 돌아가기</button>
         </div>
+      </section>
+
+      <section class="screen" data-screen="end">
+        <h2>주문 완료</h2>
+        <div class="end-copy">
+          <p>문자메시지를 전송하셨나요?</p>
+          <p>주문은 문자 전송 후 매장에서 확인됩니다.</p>
+          <p>
+            문자 전송 후<br />
+            <strong>매장 확인 답변을 받으셔야<br />주문이 확정됩니다.</strong>
+          </p>
+          <p>결제는 배달원이 좌석에서<br />직접 진행 도와드리겠습니다.</p>
+        </div>
+        <button class="end-home-button" id="endHomeButton" type="button">처음으로 돌아가기</button>
       </section>
 
       <footer class="bottom-bar" id="bottomBar" hidden>

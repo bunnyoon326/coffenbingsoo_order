@@ -299,6 +299,7 @@ const reviewBackToCart = document.querySelector("#reviewBackToCart");
 const finalMessagePreview = document.querySelector("#finalMessagePreview");
 const placeOrderButton = document.querySelector("#placeOrderButton");
 const placeRestartButton = document.querySelector("#placeRestartButton");
+const endHomeButton = document.querySelector("#endHomeButton");
 const toast = document.querySelector("#toast");
 const mainVisual = document.querySelector(".main-visual");
 const heroTrack = document.querySelector(".hero-track");
@@ -327,6 +328,7 @@ const labels = {
   cart: "장바구니",
   review: "주문 확인",
   placeOrder: "주문하기",
+  end: "주문 완료",
 };
 
 const orderSmsRecipient = "01024374223";
@@ -513,13 +515,19 @@ function goTo(screen) {
   document.querySelector(".app-shell").classList.toggle("is-seat-screen", screen === "seat");
   document.querySelector(".app-shell").classList.toggle("is-menu-screen", screen === "menu");
   document.querySelector(".app-shell").classList.toggle("is-cart-screen", screen === "cart");
+  document.querySelector(".app-shell").classList.toggle("is-end-screen", screen === "end");
   screens.forEach((element) => {
     element.classList.toggle("is-active", element.dataset.screen === screen);
   });
   stepLabel.textContent = labels[screen];
   backButton.disabled = screen === "home";
   bottomBar.hidden =
-    screen === "home" || screen === "seat" || screen === "seatConfirm" || screen === "review" || screen === "placeOrder";
+    screen === "home" ||
+    screen === "seat" ||
+    screen === "seatConfirm" ||
+    screen === "review" ||
+    screen === "placeOrder" ||
+    screen === "end";
   reviewButton.textContent = screen === "cart" ? "더 고르기" : "장바구니";
   orderButton.textContent = "주문하기";
   updateBottom();
@@ -1050,6 +1058,7 @@ backButton.addEventListener("click", () => {
   if (state.screen === "cart") goTo("menu");
   if (state.screen === "review") goTo("cart");
   if (state.screen === "placeOrder") goTo("review");
+  if (state.screen === "end") goTo("placeOrder");
 });
 
 brandHomeButton.addEventListener("click", (event) => {
@@ -1147,6 +1156,7 @@ placeOrderButton.addEventListener("click", async () => {
   updatePlaceOrder();
   const copyPromise = copyMessage();
   openSms();
+  goTo("end");
   try {
     await copyPromise;
     showToast("주문 내용이 복사되었어요.");
@@ -1156,6 +1166,7 @@ placeOrderButton.addEventListener("click", async () => {
 });
 
 placeRestartButton.addEventListener("click", () => goTo("home"));
+endHomeButton.addEventListener("click", () => goTo("home"));
 
 [seatBlock, seatRow, seatNumber, seatDescription].forEach((input) => {
   input.addEventListener("focus", () => scrollSeatInputIntoView(input));

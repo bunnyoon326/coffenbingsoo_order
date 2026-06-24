@@ -1180,20 +1180,23 @@ textarea {
 
 .screen[data-screen="cart"],
 .screen[data-screen="review"],
-.screen[data-screen="placeOrder"] {
+.screen[data-screen="placeOrder"],
+.screen[data-screen="end"] {
   min-height: calc(100dvh - 54px);
   padding: 26px 30px 84px;
   background: #f5f5f5;
 }
 
 .screen[data-screen="review"],
-.screen[data-screen="placeOrder"] {
+.screen[data-screen="placeOrder"],
+.screen[data-screen="end"] {
   padding-bottom: 56px;
 }
 
 .screen[data-screen="cart"] h2,
 .screen[data-screen="review"] h2,
-.screen[data-screen="placeOrder"] h2 {
+.screen[data-screen="placeOrder"] h2,
+.screen[data-screen="end"] h2 {
   margin-bottom: 20px;
   text-align: center;
   color: #000;
@@ -1202,6 +1205,51 @@ textarea {
   font-weight: 700;
   line-height: normal;
   letter-spacing: -1.2px;
+}
+
+.screen[data-screen="end"] {
+  min-height: calc(100dvh - 54px);
+  padding-top: 26px;
+  text-align: center;
+}
+
+.end-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 20px 0;
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.18px;
+}
+
+.end-copy strong {
+  color: #df4444;
+  font-weight: 500;
+}
+
+.end-home-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 49px;
+  margin-top: 0;
+  padding: 15px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  color: #444;
+  background: var(--surface);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.18px;
 }
 
 .cart-card,
