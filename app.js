@@ -146,82 +146,82 @@ const categories = [
 ];
 
 const menuImages = {
-  pigbar: "./images/menu/커빙_돼지바빙수_정면뷰.png",
-  strawberry: "./images/menu/커빙_딸기몽땅빙수_정면뷰.png",
-  mango: "./images/menu/커빙_망고피치빙수_정면뷰.png",
-  snow: "./images/menu/커빙_눈꽃빙수_정면뷰.png",
-  oreo: "./images/menu/커빙_오레오빙수_정면뷰.png",
-  retro: "./images/menu/커빙_레트로빙수_정면뷰.png",
-  cup: "./images/menu/커빙_컵빙수_정면뷰.png",
-  "cup-strawberry": "./images/menu/커빙_딸기컵빙수_정면뷰.png",
-  "americano-ice": "./images/menu/아이스아메리카노.png",
-  coldbrew: "./images/menu/콜드브루.png",
-  "latte-ice": "./images/menu/카페라떼.png",
-  "vanilla-ice": "./images/menu/바닐라라떼.png",
-  dolce: "./images/menu/돌체라떼.png",
-  mocha: "./images/menu/카페모카.png",
-  caramel: "./images/menu/카라멜마끼아또.png",
-  cappuccino: "./images/menu/카푸치노.png",
-  "americano-iceup": "./images/menu/아이스아메리카노.png",
-  "latte-iceup": "./images/menu/카페라떼.png",
-  "vanilla-iceup": "./images/menu/바닐라라떼.png",
-  "americano-hot": "./images/menu/아메리카노_핫.png",
-  "latte-hot": "./images/menu/카페라떼_핫.png",
-  "green-latte": "./images/menu/녹차라떼.png",
-  "green-latte-iceup": "./images/menu/녹차라떼.png",
-  "green-latte-hot": "./images/menu/녹차라떼_핫.png",
-  sweetpotato: "./images/menu/고구마라떼.png",
-  "sweetpotato-hot": "./images/menu/고구마라떼_핫.png",
-  "strawberry-latte": "./images/menu/딸기라떼.png",
-  "milk-tea": "./images/menu/밀크티.png",
-  "milk-tea-iceup": "./images/menu/밀크티.png",
-  "taro-milk-tea": "./images/menu/타로밀크티.png",
-  choco: "./images/menu/초코라떼.png",
-  "choco-iceup": "./images/menu/초코라떼.png",
-  "choco-hot": "./images/menu/초코라떼.png",
-  chamomile: "./images/menu/캐모마일.png",
-  earlgrey: "./images/menu/얼그레이티.png",
-  "lemon-tea": "./images/menu/레몬티.png",
-  "grapefruit-tea": "./images/menu/자몽티.png",
-  "yuja-tea": "./images/menu/유자차.png",
-  "peach-iced-tea": "./images/menu/복숭아아이스티.png",
-  "lemon-ade": "./images/menu/레몬에이드.png",
-  "grapefruit-ade": "./images/menu/자몽에이드.png",
-  "green-grape-ade": "./images/menu/청포도에이드.png",
-  "blue-lemon-ade": "./images/menu/블루레몬에이드.png",
-  "draft-beer": "./images/menu/생맥주.png",
-  "can-beer": "./images/menu/캔맥주.png",
-  "extra-cup": "./images/menu/컵추가.png",
-  "snap-blanket": "./images/menu/똑딱이담요.png",
-  "lap-blanket": "./images/menu/무릎담요.png",
-  "hot-pack": "./images/menu/핫팩.png",
-  "warm-set": "./images/menu/아따뜻해세트.png",
+  pigbar: "./images/menu/dwaeji-bar-bingsu.png",
+  strawberry: "./images/menu/loaded-strawberry-bingsu.png",
+  mango: "./images/menu/mango-peach-bingsu.png",
+  snow: "./images/menu/snowflake-bingsu.png",
+  oreo: "./images/menu/oreo-bingsu.png",
+  retro: "./images/menu/retro-bingsu.png",
+  cup: "./images/menu/cup-bingsu.png",
+  "cup-strawberry": "./images/menu/strawberry-cup-bingsu.png",
+  "americano-ice": "./images/menu/americano.png",
+  coldbrew: "./images/menu/decaf-cold-brew.png",
+  "latte-ice": "./images/menu/cafe-latte.png",
+  "vanilla-ice": "./images/menu/vanilla-latte.png",
+  dolce: "./images/menu/dolce-latte.png",
+  mocha: "./images/menu/cafe-mocha.png",
+  caramel: "./images/menu/caramel-macchiato.png",
+  cappuccino: "./images/menu/cappuccino_hot.png",
+  "americano-iceup": "./images/menu/americano.png",
+  "latte-iceup": "./images/menu/cafe-latte.png",
+  "vanilla-iceup": "./images/menu/vanilla-latte.png",
+  "americano-hot": "./images/menu/americano-hot.png",
+  "latte-hot": "./images/menu/cafe-latte-hot.png",
+  "green-latte": "./images/menu/green-tea-latte.png",
+  "green-latte-iceup": "./images/menu/green-tea-latte.png",
+  "green-latte-hot": "./images/menu/green-tea-latte-hot.png",
+  sweetpotato: "./images/menu/sweet-potato-latte.png",
+  "sweetpotato-hot": "./images/menu/sweet-potato-latte-hot.png",
+  "strawberry-latte": "./images/menu/strawberry-latte.png",
+  "milk-tea": "./images/menu/milk-tea.png",
+  "milk-tea-iceup": "./images/menu/milk-tea.png",
+  "taro-milk-tea": "./images/menu/taro-milk-tea.png",
+  choco: "./images/menu/chocolate-latte.png",
+  "choco-iceup": "./images/menu/chocolate-latte.png",
+  "choco-hot": "./images/menu/chocolate-latte_hot.png",
+  chamomile: "./images/menu/chamomile-tea.png",
+  earlgrey: "./images/menu/earl-grey-tea.png",
+  "lemon-tea": "./images/menu/lemon-tea.png",
+  "grapefruit-tea": "./images/menu/grapefruit-tea.png",
+  "yuja-tea": "./images/menu/yuja-tea.png",
+  "peach-iced-tea": "./images/menu/peach-iced-tea.png",
+  "lemon-ade": "./images/menu/lemonade.png",
+  "grapefruit-ade": "./images/menu/grapefruit-ade.png",
+  "green-grape-ade": "./images/menu/green-grape-ade.png",
+  "blue-lemon-ade": "./images/menu/blue-lemonade.png",
+  "draft-beer": "./images/menu/draft-beer.png",
+  "can-beer": "./images/menu/canned-beer.png",
+  "extra-cup": "./images/menu/extra-cup.png",
+  "snap-blanket": "./images/menu/snap-blanket.png",
+  "lap-blanket": "./images/menu/lap-blanket.png",
+  "hot-pack": "./images/menu/hot-pack.png",
+  "warm-set": "./images/menu/cozy-set.png",
 };
 Object.assign(menuImages, {
   "mocha-iceup": menuImages.mocha,
   "dolce-iceup": menuImages.dolce,
   "caramel-iceup": menuImages.caramel,
   "coldbrew-iceup": menuImages.coldbrew,
-  "mocha-hot": "./images/menu/카페모카_핫.png",
-  "dolce-hot": "./images/menu/돌체라떼_핫.png",
-  "vanilla-hot": "./images/menu/바닐라라떼_핫.png",
-  "caramel-hot": "./images/menu/카라멜마끼아또_핫.png",
-  "coldbrew-hot": "./images/menu/디카페인콜드브루_핫.png",
-  "milk-tea-hot": "./images/menu/밀크티_핫.png",
+  "mocha-hot": "./images/menu/cafe-mocha-hot.png",
+  "dolce-hot": "./images/menu/dolce-latte-hot.png",
+  "vanilla-hot": "./images/menu/vanilla-latte-hot.png",
+  "caramel-hot": "./images/menu/caramel-macchiato-hot.png",
+  "coldbrew-hot": "./images/menu/decaf-cold-brew-hot.png",
+  "milk-tea-hot": "./images/menu/milk-tea-hot.png",
   "taro-milk-tea-iceup": menuImages["taro-milk-tea"],
-  "taro-milk-tea-hot": "./images/menu/타로밀크티_핫.png",
+  "taro-milk-tea-hot": "./images/menu/taro-milk-tea-hot.png",
   "strawberry-latte-iceup": menuImages["strawberry-latte"],
   "peach-iced-tea-iceup": menuImages["peach-iced-tea"],
   "lemon-tea-iceup": menuImages["lemon-tea"],
-  "lemon-tea-hot": "./images/menu/레몬티_핫.png",
+  "lemon-tea-hot": "./images/menu/lemon-tea-hot.png",
   "grapefruit-tea-iceup": menuImages["grapefruit-tea"],
-  "grapefruit-tea-hot": "./images/menu/자몽티_핫.png",
+  "grapefruit-tea-hot": "./images/menu/grapefruit-tea-hot.png",
   "yuja-tea-iceup": menuImages["yuja-tea"],
-  "yuja-tea-hot": "./images/menu/유자차_핫.png",
+  "yuja-tea-hot": "./images/menu/yuja-tea-hot.png",
   "chamomile-iceup": menuImages.chamomile,
-  "chamomile-hot": "./images/menu/캐모마일_핫.png",
+  "chamomile-hot": "./images/menu/chamomile-tea-hot.png",
   "earlgrey-iceup": menuImages.earlgrey,
-  "earlgrey-hot": "./images/menu/얼그레이_핫.png",
+  "earlgrey-hot": "./images/menu/earl-grey-tea-hot.png",
   "lemon-ade-iceup": menuImages["lemon-ade"],
   "grapefruit-ade-iceup": menuImages["grapefruit-ade"],
   "green-grape-ade-iceup": menuImages["green-grape-ade"],
@@ -258,8 +258,10 @@ const state = {
 const screens = document.querySelectorAll(".screen");
 const stepLabel = document.querySelector("#stepLabel");
 const backButton = document.querySelector("#backButton");
+const brandHomeButton = document.querySelector("#brandHomeButton");
 const bottomBar = document.querySelector("#bottomBar");
 const seatScreen = document.querySelector('[data-screen="seat"]');
+const seatScrollBody = document.querySelector(".seat-scroll-body");
 const stadiumMap = document.querySelector(".stadium-map");
 const stadiumMagnifier = document.querySelector("#stadiumMagnifier");
 const seatPickerShell = document.querySelector("#seatPickerShell");
@@ -299,8 +301,11 @@ const placeOrderButton = document.querySelector("#placeOrderButton");
 const placeRestartButton = document.querySelector("#placeRestartButton");
 const toast = document.querySelector("#toast");
 const mainVisual = document.querySelector(".main-visual");
-const slides = [...document.querySelectorAll(".slide")];
+const heroTrack = document.querySelector(".hero-track");
+let slides = [...document.querySelectorAll(".slide")];
 let activeSlide = 0;
+let heroSlidePosition = 1;
+let heroPendingSnap = 0;
 let heroSliderTimer = 0;
 let heroDragStartX = 0;
 let heroDragCurrentX = 0;
@@ -420,24 +425,52 @@ function startHeroSlider() {
     return;
   }
 
-  updateHeroSlides();
+  setupHeroTrack();
+  updateHeroSlides(0, false);
   startHeroAutoplay();
 }
 
-function updateHeroSlides(offset = 0) {
-  const offsetPercent = mainVisual.offsetWidth ? (offset / mainVisual.offsetWidth) * 100 : 0;
+function setupHeroTrack() {
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone = slides[slides.length - 1].cloneNode(true);
+  firstClone.classList.add("is-clone");
+  lastClone.classList.add("is-clone");
+  firstClone.setAttribute("aria-hidden", "true");
+  lastClone.setAttribute("aria-hidden", "true");
+  heroTrack.prepend(lastClone);
+  heroTrack.append(firstClone);
+  heroSlidePosition = 1;
+}
+
+function updateHeroClasses() {
   slides.forEach((slide, index) => {
-    let distance = index - activeSlide;
-    if (distance > slides.length / 2) distance -= slides.length;
-    if (distance < -slides.length / 2) distance += slides.length;
     slide.classList.toggle("is-active", index === activeSlide);
     slide.setAttribute("aria-hidden", index === activeSlide ? "false" : "true");
-    slide.style.transform = `translateX(${distance * 100 + offsetPercent}%)`;
   });
 }
 
+function updateHeroSlides(offset = 0, animate = true) {
+  const translate = `translate3d(calc(${-heroSlidePosition * 100}% + ${offset}px), 0, 0)`;
+  heroTrack.style.transition = animate ? "" : "none";
+  heroTrack.style.transform = translate;
+  updateHeroClasses();
+}
+
 function showHeroSlide(index) {
-  activeSlide = (index + slides.length) % slides.length;
+  if (index >= slides.length) {
+    activeSlide = 0;
+    heroSlidePosition = slides.length + 1;
+    heroPendingSnap = 1;
+  } else if (index < 0) {
+    activeSlide = slides.length - 1;
+    heroSlidePosition = 0;
+    heroPendingSnap = slides.length;
+  } else {
+    activeSlide = index;
+    heroSlidePosition = index + 1;
+    heroPendingSnap = 0;
+  }
+
   updateHeroSlides();
 }
 
@@ -515,12 +548,12 @@ function updateBottom() {
 function updateSeatDetail() {
   seatDetail.hidden = !state.seatDetailsOpen;
   seatScreen.classList.toggle("has-seat-detail", state.seatDetailsOpen);
-  seatScreen.classList.toggle("is-picker-expanded", state.seatDetailsOpen && state.seatPickerExpanded);
+  seatScreen.classList.toggle("is-picker-expanded", state.seatPickerExpanded);
   seatPickerHandle.setAttribute(
     "aria-label",
-    state.seatDetailsOpen && state.seatPickerExpanded ? "좌석 구역 목록 접기" : "좌석 구역 목록 열기",
+    state.seatPickerExpanded ? "좌석 구역 목록 접기" : "좌석 구역 목록 열기",
   );
-  seatPickerHandle.setAttribute("aria-expanded", state.seatDetailsOpen && state.seatPickerExpanded ? "true" : "false");
+  seatPickerHandle.setAttribute("aria-expanded", state.seatPickerExpanded ? "true" : "false");
   const selectedSeat = seats.find((seat) => seat.name === state.seatName);
   selectedSeatName.innerHTML = selectedSeat
     ? `<span class="seat-dot" style="--seat-color: ${selectedSeat.color}"><img class="seat-dot-img" src="${selectedSeat.icon}" alt="" /></span><span>${selectedSeat.name}</span>`
@@ -554,10 +587,10 @@ function scrollSeatInputIntoView(input) {
 
   const target = input.closest("label") || input;
   const scrollToTarget = () => {
-    const containerRect = seatDetail.getBoundingClientRect();
+    const containerRect = seatScrollBody.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
-    const nextTop = seatDetail.scrollTop + targetRect.top - containerRect.top - 8;
-    seatDetail.scrollTo({
+    const nextTop = seatScrollBody.scrollTop + targetRect.top - containerRect.top - 8;
+    seatScrollBody.scrollTo({
       top: Math.max(0, nextTop),
       behavior: "smooth",
     });
@@ -863,8 +896,6 @@ categoryTabs.addEventListener("pointerdown", (event) => {
   categoryTabsDragStartX = event.clientX;
   categoryTabsDragStartY = event.clientY;
   categoryTabsDragStartScroll = categoryTabs.scrollLeft;
-  categoryTabs.classList.add("is-dragging");
-  categoryTabs.setPointerCapture(event.pointerId);
 });
 
 categoryTabs.addEventListener("pointermove", (event) => {
@@ -874,6 +905,10 @@ categoryTabs.addEventListener("pointermove", (event) => {
   const isHorizontalDrag = Math.abs(deltaX) > 10 && Math.abs(deltaX) > Math.abs(deltaY);
   if (isHorizontalDrag) {
     categoryTabsSuppressClick = true;
+    categoryTabs.classList.add("is-dragging");
+    if (!categoryTabs.hasPointerCapture(event.pointerId)) {
+      categoryTabs.setPointerCapture(event.pointerId);
+    }
     categoryTabs.scrollLeft = categoryTabsDragStartScroll - deltaX;
   }
 });
@@ -945,6 +980,18 @@ mainVisual.addEventListener("pointerleave", () => {
   }
 });
 
+heroTrack.addEventListener("transitionend", (event) => {
+  if (event.target !== heroTrack || !heroPendingSnap) {
+    return;
+  }
+
+  heroSlidePosition = heroPendingSnap;
+  heroPendingSnap = 0;
+  updateHeroSlides(0, false);
+});
+
+window.addEventListener("resize", () => updateHeroSlides(0, false));
+
 stadiumMap.addEventListener("pointerenter", (event) => {
   if (event.pointerType === "mouse") {
     updateStadiumMagnifier(event);
@@ -1003,6 +1050,11 @@ backButton.addEventListener("click", () => {
   if (state.screen === "cart") goTo("menu");
   if (state.screen === "review") goTo("cart");
   if (state.screen === "placeOrder") goTo("review");
+});
+
+brandHomeButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  goTo("home");
 });
 
 categoryTabs.addEventListener("click", (event) => {

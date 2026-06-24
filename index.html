@@ -10,62 +10,65 @@
     <main class="app-shell">
       <header class="top-bar">
         <button class="icon-button" id="backButton" type="button" aria-label="이전 단계">
-          <span aria-hidden="true">‹</span>
+          <img src="./images/main/header_btn.svg" alt="" aria-hidden="true" />
         </button>
-        <img
-          class="brand-mark"
-          src="./images/main/logo.png"
-          alt="커빙"
-        />
+        <a class="brand-link" id="brandHomeButton" href="./index.html" aria-label="홈으로 이동">
+          <img class="brand-mark" src="./images/main/logo_b.svg" alt="커빙" />
+        </a>
         <div class="step-label" id="stepLabel">주문 시작</div>
       </header>
 
       <section class="screen is-active" data-screen="home">
         <div class="main-visual" aria-label="커빙 메인 배너">
-          <img class="slide is-active" src="./images/main/260518_007.png" alt="" />
-          <img class="slide" src="./images/main/260518_008.png" alt="" />
-          <img class="slide" src="./images/main/260518_009.png" alt="" />
+          <div class="hero-track">
+            <img class="slide is-active" src="./images/main/hero/001.png" alt="" />
+            <img class="slide" src="./images/main/hero/002.png" alt="" />
+            <img class="slide" src="./images/main/hero/003.png" alt="" />
+            <img class="slide" src="./images/main/hero/004.png" alt="" />
+          </div>
         </div>
         <div class="choice-list">
           <button class="choice-button" type="button" data-start-order>
             <span>좌석으로 배달받기</span>
-            <span class="choice-arrow" aria-hidden="true">›</span>
+            <img class="choice-icon" src="./images/main/main_btn_icon_01.svg" alt="" aria-hidden="true" />
           </button>
           <a class="choice-button secondary" href="https://ws.yogiyo.co.kr/1yso4h9" target="_blank" rel="noreferrer">
             <span>요기요로 픽업주문</span>
-            <span class="choice-arrow" aria-hidden="true">›</span>
+            <img class="choice-icon" src="./images/main/main_btn_icon_02.svg" alt="" aria-hidden="true" />
           </a>
         </div>
       </section>
 
       <section class="screen" data-screen="seat">
-        <h2>좌석정보입력</h2>
-        <div class="stadium-map" aria-label="경기장 좌석 안내도">
-          <img src="./images/seat_2026_zoom.png" alt="경기장 좌석 안내도" draggable="false" />
-          <div class="stadium-magnifier" id="stadiumMagnifier" aria-hidden="true"></div>
-        </div>
-
-        <div class="seat-detail" id="seatDetail" hidden>
-          <p class="selected-seat-name" id="selectedSeatName"></p>
-          <div class="seat-grid">
-            <label>
-              블럭
-              <input id="seatBlock" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
-            </label>
-            <label>
-              열
-              <input id="seatRow" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
-            </label>
-            <label>
-              번호
-              <input id="seatNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
-            </label>
-            <label class="seat-description-row">
-              설명
-              <textarea id="seatDescription" rows="3" placeholder="자세한 좌석 위치를 설명해주세요."></textarea>
-            </label>
+        <div class="seat-scroll-body">
+          <h2>좌석정보입력</h2>
+          <div class="stadium-map" aria-label="경기장 좌석 안내도">
+            <img src="./images/seat_2026_zoom.png" alt="경기장 좌석 안내도" draggable="false" />
+            <div class="stadium-magnifier" id="stadiumMagnifier" aria-hidden="true"></div>
           </div>
-          <button class="primary-button" id="seatNext" type="button">좌석정보 입력완료</button>
+
+          <div class="seat-detail" id="seatDetail" hidden>
+            <p class="selected-seat-name" id="selectedSeatName"></p>
+            <div class="seat-grid">
+              <label>
+                블럭
+                <input id="seatBlock" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+              </label>
+              <label>
+                열
+                <input id="seatRow" type="text" inputmode="text" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+              </label>
+              <label>
+                번호
+                <input id="seatNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="구분 없을 시 비워주세요." />
+              </label>
+              <label class="seat-description-row">
+                설명
+                <textarea id="seatDescription" rows="3" placeholder="자세한 좌석 위치를 설명해주세요."></textarea>
+              </label>
+            </div>
+            <button class="primary-button" id="seatNext" type="button">좌석정보 입력완료</button>
+          </div>
         </div>
 
         <div class="seat-picker-shell" id="seatPickerShell">
