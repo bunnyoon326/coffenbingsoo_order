@@ -216,23 +216,39 @@ select {
 .icon-button {
   width: 38px;
   height: 38px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
   border: 0;
   border-radius: 50%;
   color: var(--ink);
   background: transparent;
-  font-size: 34px;
-  line-height: 34px;
 }
 
 .icon-button:disabled {
-  color: transparent;
+  opacity: 0;
+}
+
+.icon-button img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.brand-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  width: 70px;
+  height: 40px;
 }
 
 .brand-mark {
-  justify-self: start;
   width: 70px;
   height: 40px;
   object-fit: contain;
+  display: block;
 }
 
 .step-label {
@@ -294,24 +310,31 @@ h2 {
   cursor: grabbing;
 }
 
-.slide {
-  position: absolute;
-  inset: 0;
+.hero-track {
+  display: flex;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: translateX(100%);
-  transition: transform 0.45s ease;
-  user-select: none;
-  -webkit-user-drag: none;
+  transition: transform 0.48s cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: transform;
 }
 
-.main-visual.is-dragging .slide {
+.slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.main-visual.is-dragging .hero-track {
   transition: none;
 }
 
 .choice-list {
+  --choice-font-size: 28px;
+  --choice-icon-size: 1em;
+  --choice-gap: 0.36em;
   display: grid;
   gap: 10px;
   margin-top: 42px;
@@ -321,33 +344,30 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  min-height: 72px;
-  padding: 20px 10px;
+  gap: var(--choice-gap);
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 30px;
+  border-radius: 24px;
   color: var(--surface);
   background: #df4444;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
   text-decoration: none;
-  font-size: 30px;
+  font-size: var(--choice-font-size);
   font-weight: 700;
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
   line-height: 1;
   white-space: nowrap;
 }
 
-.choice-arrow {
-  display: inline-grid;
-  place-items: center;
-  width: 12px;
-  height: 24px;
-  font-family: Arial, sans-serif;
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 1;
-  transform: translateY(-1px);
+.choice-icon {
+  width: auto;
+  height: var(--choice-icon-size);
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .choice-button.secondary {
@@ -368,6 +388,12 @@ h2 {
 .screen[data-screen="seat"].is-active {
   display: flex;
   flex-direction: column;
+}
+
+.seat-scroll-body {
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
 }
 
 .screen[data-screen="seat"] h2 {
@@ -490,6 +516,18 @@ h2 {
   scrollbar-width: thin;
 }
 
+.screen[data-screen="seat"].is-picker-expanded:not(.has-seat-detail) .seat-picker-shell {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  flex: none;
+  height: min(74dvh, 560px);
+  min-height: min(74dvh, 560px);
+  max-height: min(74dvh, 560px);
+}
+
 .seat-detail {
   flex: 0 0 auto;
   width: 100%;
@@ -502,6 +540,15 @@ h2 {
   overflow: hidden;
 }
 
+.screen[data-screen="seat"].has-seat-detail .seat-scroll-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-bottom: 110px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
 .screen[data-screen="seat"].has-seat-detail h2 {
   margin-bottom: 12px;
 }
@@ -511,22 +558,16 @@ h2 {
 }
 
 .screen[data-screen="seat"].has-seat-detail .seat-detail {
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
   margin-bottom: 0;
-  padding-bottom: 150px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: thin;
+  padding-bottom: 0;
+  overflow: visible;
 }
 
 .screen[data-screen="seat"].has-seat-detail #seatNext {
-  position: absolute;
-  left: 30px;
-  right: 30px;
-  bottom: 84px;
-  z-index: 25;
-  width: auto;
+  position: static;
+  width: 100%;
+  margin-top: 16px;
   box-shadow: 0 8px 18px rgba(223, 68, 68, 0.16);
 }
 
@@ -1457,7 +1498,7 @@ textarea {
   bottom: 0;
   z-index: 35;
   display: grid;
-  grid-template-columns: 196px 103px 103px;
+  grid-template-columns: minmax(118px, 1fr) minmax(78px, 0.56fr) minmax(94px, 0.64fr);
   width: min(100%, 402px);
   min-height: calc(60px + env(safe-area-inset-bottom));
   transform: translateX(-50%);
@@ -1471,35 +1512,44 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
   height: 60px;
   padding: 0 11px;
   background: var(--surface);
 }
 
 .total-box span {
+  flex: 0 0 auto;
   color: #151515;
   font-size: 18px;
   font-weight: 500;
   line-height: 21px;
   letter-spacing: -0.18px;
+  white-space: nowrap;
 }
 
 .total-box strong {
+  min-width: 0;
   color: #151515;
   font-size: 18px;
   font-weight: 500;
   line-height: 21px;
   letter-spacing: -0.18px;
+  white-space: nowrap;
 }
 
 .cart-button,
 .order-button {
+  min-width: 0;
   height: 60px;
+  padding: 0 4px;
   border-radius: 0;
   font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.18px;
+  white-space: nowrap;
 }
 
 .cart-button {
@@ -1576,6 +1626,10 @@ textarea {
     padding-right: 20px;
   }
 
+  .choice-list {
+    --choice-font-size: 24px;
+  }
+
   .tabs {
     margin-left: -20px;
     margin-right: -20px;
@@ -1584,7 +1638,20 @@ textarea {
   }
 
   .bottom-bar {
-    grid-template-columns: 1fr 88px 100px;
+    grid-template-columns: minmax(104px, 1fr) minmax(72px, 0.54fr) minmax(86px, 0.64fr);
+  }
+
+  .total-box {
+    gap: 6px;
+    padding: 0 8px;
+  }
+
+  .total-box span,
+  .total-box strong,
+  .cart-button,
+  .order-button {
+    font-size: 16px;
+    letter-spacing: 0;
   }
 
   .menu-item {
@@ -1594,5 +1661,48 @@ textarea {
   .menu-thumb {
     width: 82px;
     height: 82px;
+  }
+}
+
+@media (max-width: 330px) {
+  .choice-list {
+    --choice-font-size: 22px;
+    --choice-gap: 0.3em;
+  }
+}
+
+@media (max-width: 300px) {
+  .choice-list {
+    --choice-font-size: 19px;
+    --choice-gap: 0.26em;
+  }
+
+  .choice-button {
+    min-height: 52px;
+  }
+
+  .bottom-bar {
+    grid-template-columns: minmax(78px, 0.9fr) minmax(64px, 0.55fr) minmax(74px, 0.65fr);
+  }
+
+  .total-box {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1px;
+    padding: 0 6px;
+  }
+
+  .total-box span,
+  .total-box strong {
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .cart-button,
+  .order-button {
+    font-size: 13px;
+    line-height: 15px;
+    white-space: normal;
   }
 }
