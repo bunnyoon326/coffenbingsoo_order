@@ -504,6 +504,13 @@
       const MENU_STATUS_API_TOKEN = window.CB_MENU_STATUS_API_TOKEN || "";
       const ADMIN_ID = "admin";
       const ADMIN_PASSWORD = "cbadmin";
+      const CATEGORY_LABEL_TO_ID = {
+        빙수: "bingsu",
+        커피: "coffee",
+        논커피: "noncoffee",
+        주류: "alcohol",
+        기타: "etc",
+      };
 
       const state = {
         category: "bingsu",
@@ -580,6 +587,9 @@
         if (!payload?.ok || !Array.isArray(payload.soldOutIds)) {
           throw new Error(payload?.error || "판매상태 응답이 올바르지 않습니다.");
         }
+        if (Array.isArray(payload.rows) && payload.rows.length) {
+          mergeRemoteMenuRows(payload.rows);
+        }
         state.savedSoldOutIds = new Set(payload.soldOutIds);
         state.draftSoldOutIds = new Set(payload.soldOutIds);
         saveLocalSoldOutIds(state.savedSoldOutIds);
@@ -651,6 +661,33 @@
         state.category = state.categories[0]?.id || "bingsu";
       }
 
+      function mergeRemoteMenuRows(rows) {
+        const categoryMap = new Map(state.categories.map((category) => [category.id, category]));
+        const imageById = new Map(state.items.map((item) => [item.id, item.image]));
+        const nextItems = rows
+          .filter((row) => row.id && row.name && row.category)
+          .map((row) => {
+            const category = CATEGORY_LABEL_TO_ID[row.category] || row.category;
+            if (!categoryMap.has(category)) {
+              categoryMap.set(category, { id: category, label: row.category });
+            }
+            return {
+              id: row.id,
+              name: row.name,
+              category,
+              categoryLabel: row.category,
+              image: imageById.get(row.id) || "",
+            };
+          });
+
+        if (!nextItems.length) return;
+        state.categories = [...categoryMap.values()];
+        state.items = nextItems;
+        if (!state.categories.some((category) => category.id === state.category)) {
+          state.category = state.categories[0]?.id || "bingsu";
+        }
+      }
+
       function visibleItems() {
         return state.items.filter((item) => item.category === state.category);
       }
@@ -712,6 +749,7 @@
       async function init() {
         state.savedSoldOutIds = readSoldOutIds();
         state.draftSoldOutIds = new Set(state.savedSoldOutIds);
+        menuList.innerHTML = `<div class="empty-state">메뉴를 불러오는 중입니다.</div>`;
 
         try {
           const response = await fetch("./app.js", { cache: "no-store" });
@@ -719,16 +757,19 @@
           flattenMenuData(extractMenuData(await response.text()));
           render();
         } catch (error) {
-          menuList.innerHTML = `<div class="empty-state">메뉴 데이터를 불러오지 못했습니다.</div>`;
           console.error(error);
         }
 
         try {
           const loaded = await loadRemoteSoldOutIds();
-          if (loaded) renderMenu();
+          if (loaded) render();
         } catch (error) {
           console.warn(error);
           showResult("error");
+        }
+
+        if (!state.items.length) {
+          menuList.innerHTML = `<div class="empty-state">메뉴 데이터를 불러오지 못했습니다.</div>`;
         }
 
         if (sessionStorage.getItem(LOGIN_STORAGE_KEY) === "1") {
