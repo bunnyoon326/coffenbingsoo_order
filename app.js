@@ -128,6 +128,7 @@ const categories = [
     items: [
       ["draft-beer", "생맥주 1L", 10000, "시원하게 즐기는 부드러운 생맥주", "#f0b43c"],
       ["can-beer", "캔맥주 500ml", 4000, "가볍게 곁들이기 좋은 시원한 캔맥주", "#eccd55"],
+      ["zero-beer", "논알콜맥주 355ml", 3000, "부담 없이 즐기는 시원한 논알콜맥주", "#c8d7e8"],
       ["extra-cup", "컵추가", 1000, "함께 나눠 마시기 좋은 추가 컵", "#d8c8b3"],
     ],
   },
@@ -188,6 +189,7 @@ const menuImages = {
   "green-grape-ade": "./images/menu/green-grape-ade.png",
   "draft-beer": "./images/menu/draft-beer.png",
   "can-beer": "./images/menu/canned-beer.png",
+  "zero-beer": "./images/menu/zero-beer.jpg",
   "extra-cup": "./images/menu/extra-cup.png",
   "snap-blanket": "./images/menu/snap-blanket.png",
   "lap-blanket": "./images/menu/lap-blanket.png",
