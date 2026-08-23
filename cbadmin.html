@@ -221,8 +221,12 @@
         margin-right: -30px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 0 20px 2px;
+        overscroll-behavior-x: contain;
+        padding: 0 30px 4px 20px;
         scrollbar-width: none;
+        scroll-padding: 20px;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
       }
 
       .category-tabs::-webkit-scrollbar {
@@ -830,6 +834,14 @@
           .join("");
       }
 
+      function scrollActiveTabIntoView(tabList) {
+        const activeTab = tabList.querySelector(".is-active");
+        if (!activeTab) return;
+        requestAnimationFrame(() => {
+          activeTab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        });
+      }
+
       function renderSubTabs() {
         const subCategories = subCategoriesForCurrentCategory();
         subCategoryTabs.hidden = !subCategories.length;
@@ -885,6 +897,8 @@
         renderTabs();
         renderSubTabs();
         renderMenu();
+        scrollActiveTabIntoView(categoryTabs);
+        scrollActiveTabIntoView(subCategoryTabs);
       }
 
       async function init() {
