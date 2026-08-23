@@ -252,6 +252,22 @@
         border-color: var(--accent-line);
       }
 
+      .sub-category-tabs {
+        margin-top: -10px;
+      }
+
+      .sub-category-tabs[hidden] {
+        display: none;
+      }
+
+      .subtab-button {
+        min-width: 76px;
+        height: 34px;
+        padding: 8px 20px;
+        font-size: 14px;
+        letter-spacing: -0.14px;
+      }
+
       .menu-list {
         display: flex;
         flex-direction: column;
@@ -481,6 +497,7 @@
       <section class="screen menu-screen" id="menuScreen">
         <h1 class="page-title">메뉴 판매상태변경하기</h1>
         <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="메뉴 카테고리"></div>
+        <div class="category-tabs sub-category-tabs" id="subCategoryTabs" role="tablist" aria-label="메뉴 세부 카테고리" hidden></div>
         <div class="menu-list" id="menuList" aria-label="메뉴 판매상태 목록"></div>
       </section>
 
@@ -511,9 +528,16 @@
         주류: "alcohol",
         기타: "etc",
       };
+      const SUB_CATEGORY_ORDER = ["ICE", "HOT", "ICE 사이즈업"];
+      const SUB_CATEGORY_ID_TO_LABEL = {
+        ice: "ICE",
+        hot: "HOT",
+        iceup: "ICE 사이즈업",
+      };
 
       const state = {
         category: "bingsu",
+        subCategory: "",
         categories: [],
         items: [],
         savedSoldOutIds: new Set(),
@@ -527,6 +551,7 @@
       const adminPassword = document.querySelector("#adminPassword");
       const backButton = document.querySelector("#backButton");
       const categoryTabs = document.querySelector("#categoryTabs");
+      const subCategoryTabs = document.querySelector("#subCategoryTabs");
       const menuList = document.querySelector("#menuList");
       const bottomActions = document.querySelector("#bottomActions");
       const bulkButton = document.querySelector("#bulkButton");
@@ -644,7 +669,7 @@
           throw new Error("메뉴 데이터를 찾을 수 없습니다.");
         }
         const block = source.slice(start, end);
-        return Function(`${block}; return { categories, menuImages };`)();
+        return Function(`${block}; return { menuSubCategories, categories, menuImages };`)();
       }
 
       function flattenMenuData(data) {
@@ -655,10 +680,12 @@
             name,
             category: category.id,
             categoryLabel: category.label,
+            subCategory: SUB_CATEGORY_ID_TO_LABEL[subCategory] || data.menuSubCategories.find((item) => item.id === subCategory)?.label || "",
             image: data.menuImages[id],
           })),
         );
         state.category = state.categories[0]?.id || "bingsu";
+        setDefaultSubCategory();
       }
 
       function mergeRemoteMenuRows(rows) {
@@ -676,6 +703,7 @@
               name: row.name,
               category,
               categoryLabel: row.category,
+              subCategory: row.subCategory || "",
               image: imageById.get(row.id) || "",
             };
           });
@@ -686,10 +714,27 @@
         if (!state.categories.some((category) => category.id === state.category)) {
           state.category = state.categories[0]?.id || "bingsu";
         }
+        setDefaultSubCategory();
+      }
+
+      function subCategoriesForCurrentCategory() {
+        const labels = new Set(
+          state.items
+            .filter((item) => item.category === state.category && item.subCategory)
+            .map((item) => item.subCategory),
+        );
+        return SUB_CATEGORY_ORDER.filter((label) => labels.has(label));
+      }
+
+      function setDefaultSubCategory() {
+        const subCategories = subCategoriesForCurrentCategory();
+        state.subCategory = subCategories.includes(state.subCategory) ? state.subCategory : subCategories[0] || "";
       }
 
       function visibleItems() {
-        return state.items.filter((item) => item.category === state.category);
+        return state.items.filter(
+          (item) => item.category === state.category && (!state.subCategory || item.subCategory === state.subCategory),
+        );
       }
 
       function allVisibleSoldOut() {
@@ -702,6 +747,22 @@
           .map(
             (category) =>
               `<button class="tab-button ${category.id === state.category ? "is-active" : ""}" type="button" role="tab" data-category="${category.id}">${category.label}</button>`,
+          )
+          .join("");
+      }
+
+      function renderSubTabs() {
+        const subCategories = subCategoriesForCurrentCategory();
+        subCategoryTabs.hidden = !subCategories.length;
+        if (!subCategories.length) {
+          subCategoryTabs.innerHTML = "";
+          return;
+        }
+
+        subCategoryTabs.innerHTML = subCategories
+          .map(
+            (label) =>
+              `<button class="tab-button subtab-button ${label === state.subCategory ? "is-active" : ""}" type="button" role="tab" data-sub-category="${label}">${label}</button>`,
           )
           .join("");
       }
@@ -743,6 +804,7 @@
 
       function render() {
         renderTabs();
+        renderSubTabs();
         renderMenu();
       }
 
@@ -803,6 +865,14 @@
         const button = event.target.closest("[data-category]");
         if (!button) return;
         state.category = button.dataset.category;
+        setDefaultSubCategory();
+        render();
+      });
+
+      subCategoryTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-sub-category]");
+        if (!button) return;
+        state.subCategory = button.dataset.subCategory;
         render();
       });
 
