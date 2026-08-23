@@ -221,8 +221,12 @@
         margin-right: -30px;
         overflow-x: auto;
         overflow-y: hidden;
-        padding: 0 20px 2px;
+        overscroll-behavior-x: contain;
+        padding: 0 30px 4px 20px;
         scrollbar-width: none;
+        scroll-padding: 20px;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
       }
 
       .category-tabs::-webkit-scrollbar {
@@ -250,6 +254,22 @@
       .tab-button.is-active {
         color: var(--accent);
         border-color: var(--accent-line);
+      }
+
+      .sub-category-tabs {
+        margin-top: -10px;
+      }
+
+      .sub-category-tabs[hidden] {
+        display: none;
+      }
+
+      .subtab-button {
+        min-width: 76px;
+        height: 34px;
+        padding: 8px 20px;
+        font-size: 14px;
+        letter-spacing: -0.14px;
       }
 
       .menu-list {
@@ -481,6 +501,7 @@
       <section class="screen menu-screen" id="menuScreen">
         <h1 class="page-title">메뉴 판매상태변경하기</h1>
         <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="메뉴 카테고리"></div>
+        <div class="category-tabs sub-category-tabs" id="subCategoryTabs" role="tablist" aria-label="메뉴 세부 카테고리" hidden></div>
         <div class="menu-list" id="menuList" aria-label="메뉴 판매상태 목록"></div>
       </section>
 
@@ -504,9 +525,102 @@
       const MENU_STATUS_API_TOKEN = window.CB_MENU_STATUS_API_TOKEN || "";
       const ADMIN_ID = "admin";
       const ADMIN_PASSWORD = "cbadmin";
+      const CATEGORY_LABEL_TO_ID = {
+        빙수: "bingsu",
+        커피: "coffee",
+        논커피: "noncoffee",
+        주류: "alcohol",
+        기타: "etc",
+      };
+      const SUB_CATEGORY_ORDER = ["ICE", "HOT", "ICE 사이즈업"];
+      const SUB_CATEGORY_ID_TO_LABEL = {
+        ice: "ICE",
+        hot: "HOT",
+        iceup: "ICE 사이즈업",
+      };
+      const MENU_IMAGE_PATHS = {
+        pigbar: "./images/menu/dwaeji-bar-bingsu.png",
+        strawberry: "./images/menu/loaded-strawberry-bingsu.png",
+        mango: "./images/menu/mango-peach-bingsu.png",
+        snow: "./images/menu/snowflake-bingsu.png",
+        oreo: "./images/menu/oreo-bingsu.png",
+        retro: "./images/menu/retro-bingsu.png",
+        cup: "./images/menu/cup-bingsu.png",
+        "cup-strawberry": "./images/menu/strawberry-cup-bingsu.png",
+        "americano-ice": "./images/menu/americano.png",
+        coldbrew: "./images/menu/decaf-cold-brew.png",
+        "latte-ice": "./images/menu/cafe-latte.png",
+        "vanilla-ice": "./images/menu/vanilla-latte.png",
+        dolce: "./images/menu/dolce-latte.png",
+        mocha: "./images/menu/cafe-mocha.png",
+        caramel: "./images/menu/caramel-macchiato.png",
+        cappuccino: "./images/menu/cappuccino_hot.png",
+        "americano-iceup": "./images/menu/americano.png",
+        "latte-iceup": "./images/menu/cafe-latte.png",
+        "vanilla-iceup": "./images/menu/vanilla-latte.png",
+        "americano-hot": "./images/menu/americano-hot.png",
+        "latte-hot": "./images/menu/cafe-latte-hot.png",
+        "green-latte": "./images/menu/green-tea-latte.png",
+        "green-latte-iceup": "./images/menu/green-tea-latte.png",
+        "green-latte-hot": "./images/menu/green-tea-latte-hot.png",
+        sweetpotato: "./images/menu/sweet-potato-latte.png",
+        "sweetpotato-hot": "./images/menu/sweet-potato-latte-hot.png",
+        "strawberry-latte": "./images/menu/strawberry-latte.png",
+        "milk-tea": "./images/menu/milk-tea.png",
+        "milk-tea-iceup": "./images/menu/milk-tea.png",
+        "taro-milk-tea": "./images/menu/taro-milk-tea.png",
+        choco: "./images/menu/chocolate-latte.png",
+        "choco-iceup": "./images/menu/chocolate-latte.png",
+        "choco-hot": "./images/menu/chocolate-latte_hot.png",
+        chamomile: "./images/menu/chamomile-tea.png",
+        earlgrey: "./images/menu/earl-grey-tea.png",
+        "lemon-tea": "./images/menu/lemon-tea.png",
+        "grapefruit-tea": "./images/menu/grapefruit-tea.png",
+        "yuja-tea": "./images/menu/yuja-tea.png",
+        "peach-iced-tea": "./images/menu/peach-iced-tea.png",
+        "lemon-ade": "./images/menu/lemonade.png",
+        "grapefruit-ade": "./images/menu/grapefruit-ade.png",
+        "green-grape-ade": "./images/menu/green-grape-ade.png",
+        "draft-beer": "./images/menu/draft-beer.png",
+        "can-beer": "./images/menu/canned-beer.png",
+        "zero-beer": "./images/menu/zero-beer.jpg",
+        "extra-cup": "./images/menu/extra-cup.png",
+        "snap-blanket": "./images/menu/snap-blanket.png",
+        "lap-blanket": "./images/menu/lap-blanket.png",
+        "hot-pack": "./images/menu/hot-pack.png",
+        "warm-set": "./images/menu/cozy-set.png",
+        "mocha-iceup": "./images/menu/cafe-mocha.png",
+        "dolce-iceup": "./images/menu/dolce-latte.png",
+        "caramel-iceup": "./images/menu/caramel-macchiato.png",
+        "coldbrew-iceup": "./images/menu/decaf-cold-brew.png",
+        "mocha-hot": "./images/menu/cafe-mocha-hot.png",
+        "dolce-hot": "./images/menu/dolce-latte-hot.png",
+        "vanilla-hot": "./images/menu/vanilla-latte-hot.png",
+        "caramel-hot": "./images/menu/caramel-macchiato-hot.png",
+        "coldbrew-hot": "./images/menu/decaf-cold-brew-hot.png",
+        "milk-tea-hot": "./images/menu/milk-tea-hot.png",
+        "taro-milk-tea-iceup": "./images/menu/taro-milk-tea.png",
+        "taro-milk-tea-hot": "./images/menu/taro-milk-tea-hot.png",
+        "strawberry-latte-iceup": "./images/menu/strawberry-latte.png",
+        "peach-iced-tea-iceup": "./images/menu/peach-iced-tea.png",
+        "lemon-tea-iceup": "./images/menu/lemon-tea.png",
+        "lemon-tea-hot": "./images/menu/lemon-tea-hot.png",
+        "grapefruit-tea-iceup": "./images/menu/grapefruit-tea.png",
+        "grapefruit-tea-hot": "./images/menu/grapefruit-tea-hot.png",
+        "yuja-tea-iceup": "./images/menu/yuja-tea.png",
+        "yuja-tea-hot": "./images/menu/yuja-tea-hot.png",
+        "chamomile-iceup": "./images/menu/chamomile-tea.png",
+        "chamomile-hot": "./images/menu/chamomile-tea-hot.png",
+        "earlgrey-iceup": "./images/menu/earl-grey-tea.png",
+        "earlgrey-hot": "./images/menu/earl-grey-tea-hot.png",
+        "lemon-ade-iceup": "./images/menu/lemonade.png",
+        "grapefruit-ade-iceup": "./images/menu/grapefruit-ade.png",
+        "green-grape-ade-iceup": "./images/menu/green-grape-ade.png",
+      };
 
       const state = {
         category: "bingsu",
+        subCategory: "",
         categories: [],
         items: [],
         savedSoldOutIds: new Set(),
@@ -520,6 +634,7 @@
       const adminPassword = document.querySelector("#adminPassword");
       const backButton = document.querySelector("#backButton");
       const categoryTabs = document.querySelector("#categoryTabs");
+      const subCategoryTabs = document.querySelector("#subCategoryTabs");
       const menuList = document.querySelector("#menuList");
       const bottomActions = document.querySelector("#bottomActions");
       const bulkButton = document.querySelector("#bulkButton");
@@ -580,6 +695,9 @@
         if (!payload?.ok || !Array.isArray(payload.soldOutIds)) {
           throw new Error(payload?.error || "판매상태 응답이 올바르지 않습니다.");
         }
+        if (Array.isArray(payload.rows) && payload.rows.length) {
+          mergeRemoteMenuRows(payload.rows);
+        }
         state.savedSoldOutIds = new Set(payload.soldOutIds);
         state.draftSoldOutIds = new Set(payload.soldOutIds);
         saveLocalSoldOutIds(state.savedSoldOutIds);
@@ -634,7 +752,7 @@
           throw new Error("메뉴 데이터를 찾을 수 없습니다.");
         }
         const block = source.slice(start, end);
-        return Function(`${block}; return { categories, menuImages };`)();
+        return Function(`${block}; return { menuSubCategories, categories, menuImages };`)();
       }
 
       function flattenMenuData(data) {
@@ -645,14 +763,61 @@
             name,
             category: category.id,
             categoryLabel: category.label,
+            subCategory: SUB_CATEGORY_ID_TO_LABEL[subCategory] || data.menuSubCategories.find((item) => item.id === subCategory)?.label || "",
             image: data.menuImages[id],
           })),
         );
         state.category = state.categories[0]?.id || "bingsu";
+        setDefaultSubCategory();
+      }
+
+      function mergeRemoteMenuRows(rows) {
+        const categoryMap = new Map(state.categories.map((category) => [category.id, category]));
+        const imageById = new Map(state.items.map((item) => [item.id, item.image]));
+        const nextItems = rows
+          .filter((row) => row.id && row.name && row.category)
+          .map((row) => {
+            const category = CATEGORY_LABEL_TO_ID[row.category] || row.category;
+            if (!categoryMap.has(category)) {
+              categoryMap.set(category, { id: category, label: row.category });
+            }
+            return {
+              id: row.id,
+              name: row.name,
+              category,
+              categoryLabel: row.category,
+              subCategory: row.subCategory || "",
+              image: row.image || imageById.get(row.id) || MENU_IMAGE_PATHS[row.id] || "",
+            };
+          });
+
+        if (!nextItems.length) return;
+        state.categories = [...categoryMap.values()];
+        state.items = nextItems;
+        if (!state.categories.some((category) => category.id === state.category)) {
+          state.category = state.categories[0]?.id || "bingsu";
+        }
+        setDefaultSubCategory();
+      }
+
+      function subCategoriesForCurrentCategory() {
+        const labels = new Set(
+          state.items
+            .filter((item) => item.category === state.category && item.subCategory)
+            .map((item) => item.subCategory),
+        );
+        return SUB_CATEGORY_ORDER.filter((label) => labels.has(label));
+      }
+
+      function setDefaultSubCategory() {
+        const subCategories = subCategoriesForCurrentCategory();
+        state.subCategory = subCategories.includes(state.subCategory) ? state.subCategory : subCategories[0] || "";
       }
 
       function visibleItems() {
-        return state.items.filter((item) => item.category === state.category);
+        return state.items.filter(
+          (item) => item.category === state.category && (!state.subCategory || item.subCategory === state.subCategory),
+        );
       }
 
       function allVisibleSoldOut() {
@@ -665,6 +830,30 @@
           .map(
             (category) =>
               `<button class="tab-button ${category.id === state.category ? "is-active" : ""}" type="button" role="tab" data-category="${category.id}">${category.label}</button>`,
+          )
+          .join("");
+      }
+
+      function scrollActiveTabIntoView(tabList) {
+        const activeTab = tabList.querySelector(".is-active");
+        if (!activeTab) return;
+        requestAnimationFrame(() => {
+          activeTab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        });
+      }
+
+      function renderSubTabs() {
+        const subCategories = subCategoriesForCurrentCategory();
+        subCategoryTabs.hidden = !subCategories.length;
+        if (!subCategories.length) {
+          subCategoryTabs.innerHTML = "";
+          return;
+        }
+
+        subCategoryTabs.innerHTML = subCategories
+          .map(
+            (label) =>
+              `<button class="tab-button subtab-button ${label === state.subCategory ? "is-active" : ""}" type="button" role="tab" data-sub-category="${label}">${label}</button>`,
           )
           .join("");
       }
@@ -706,12 +895,16 @@
 
       function render() {
         renderTabs();
+        renderSubTabs();
         renderMenu();
+        scrollActiveTabIntoView(categoryTabs);
+        scrollActiveTabIntoView(subCategoryTabs);
       }
 
       async function init() {
         state.savedSoldOutIds = readSoldOutIds();
         state.draftSoldOutIds = new Set(state.savedSoldOutIds);
+        menuList.innerHTML = `<div class="empty-state">메뉴를 불러오는 중입니다.</div>`;
 
         try {
           const response = await fetch("./app.js", { cache: "no-store" });
@@ -719,16 +912,19 @@
           flattenMenuData(extractMenuData(await response.text()));
           render();
         } catch (error) {
-          menuList.innerHTML = `<div class="empty-state">메뉴 데이터를 불러오지 못했습니다.</div>`;
           console.error(error);
         }
 
         try {
           const loaded = await loadRemoteSoldOutIds();
-          if (loaded) renderMenu();
+          if (loaded) render();
         } catch (error) {
           console.warn(error);
           showResult("error");
+        }
+
+        if (!state.items.length) {
+          menuList.innerHTML = `<div class="empty-state">메뉴 데이터를 불러오지 못했습니다.</div>`;
         }
 
         if (sessionStorage.getItem(LOGIN_STORAGE_KEY) === "1") {
@@ -762,6 +958,14 @@
         const button = event.target.closest("[data-category]");
         if (!button) return;
         state.category = button.dataset.category;
+        setDefaultSubCategory();
+        render();
+      });
+
+      subCategoryTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-sub-category]");
+        if (!button) return;
+        state.subCategory = button.dataset.subCategory;
         render();
       });
 
