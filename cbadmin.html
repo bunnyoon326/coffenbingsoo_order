@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>커빙 관리자 :: 판매상태 변경</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <style>
+      :root {
+        --bg: #f5f5f5;
+        --ink: #000;
+        --muted: #717171;
+        --line: #ddd;
+        --accent: #df4444;
+        --accent-soft: #ffbcbc;
+        --accent-line: #ffd9d9;
+        --bottom-muted: #cacfe3;
+        --bottom-idle: #ddd;
+        --shadow-wh: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      @font-face {
+        font-family: "KoreaInstituteOfMachineryAndMaterials";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2") format("woff2");
+        font-weight: 700;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2") format("woff2");
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Paperozi";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-5Medium.woff2") format("woff2");
+        font-weight: 500;
+        font-display: swap;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #ece7e0;
+        font-family: "Paperozi", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+        font-weight: 500;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        background: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .admin-shell {
+        position: relative;
+        width: min(100%, 402px);
+        min-height: 100dvh;
+        margin: 0 auto;
+        overflow: hidden;
+        background: var(--bg);
+      }
+
+      .admin-top {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 402px;
+        max-width: 100%;
+        height: 50px;
+        padding: 5px 10px;
+        transform: translateX(-50%);
+      }
+
+      .back-button {
+        position: relative;
+        width: 18px;
+        height: 32px;
+        flex: 0 0 auto;
+      }
+
+      .back-button::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 9px;
+        width: 10px;
+        height: 10px;
+        border-left: 2px solid #000;
+        border-bottom: 2px solid #000;
+        transform: rotate(45deg);
+      }
+
+      .brand-mark {
+        display: block;
+        width: 70px;
+        height: 40px;
+        object-fit: contain;
+      }
+
+      .screen {
+        display: none;
+        min-height: 100dvh;
+        padding: 80px 30px;
+      }
+
+      .screen.is-active {
+        display: flex;
+      }
+
+      .login-screen {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .menu-screen {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 92px;
+      }
+
+      .page-title {
+        margin: 0;
+        color: #000;
+        font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -1.2px;
+        white-space: nowrap;
+      }
+
+      .login-form {
+        display: grid;
+        gap: 10px;
+        width: 342px;
+        max-width: 100%;
+      }
+
+      .login-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+      }
+
+      .login-row label {
+        flex: 0 0 50px;
+        color: #000;
+        font-size: 18px;
+        line-height: normal;
+        letter-spacing: -0.18px;
+      }
+
+      .login-row input {
+        width: 280px;
+        max-width: calc(100% - 62px);
+        height: 36px;
+        padding: 0 12px;
+        color: #000;
+        background: #fff;
+        border: 0;
+        border-radius: 10px;
+        outline: none;
+        font-size: 16px;
+      }
+
+      .login-row input:focus {
+        box-shadow: 0 0 0 2px var(--accent-line);
+      }
+
+      .login-submit {
+        width: 342px;
+        max-width: 100%;
+        min-height: 49px;
+        display: grid;
+        place-items: center;
+        margin-top: 10px;
+        padding: 15px 61px;
+        color: #fff;
+        background: var(--accent);
+        border-radius: 10px;
+        font-family: "KoreaInstituteOfMachineryAndMaterials", "Paperozi", sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -0.18px;
+      }
+
+      .category-tabs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: calc(100% + 60px);
+        max-width: 403px;
+        margin-left: -30px;
+        margin-right: -30px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 20px 2px;
+        scrollbar-width: none;
+      }
+
+      .category-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-button {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 91px;
+        height: 42px;
+        padding: 10px 30px;
+        color: var(--muted);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 50px;
+        font-size: 18px;
+        line-height: normal;
+        letter-spacing: -0.18px;
+        white-space: nowrap;
+      }
+
+      .tab-button.is-active {
+        color: var(--accent);
+        border-color: var(--accent-line);
+      }
+
+      .menu-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 342px;
+        max-width: 100%;
+      }
+
+      .admin-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        width: 100%;
+        min-height: 100px;
+      }
+
+      .item-thumb {
+        flex: 0 0 auto;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        background: #fff;
+        border-radius: 20px;
+      }
+
+      .item-thumb img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .item-body {
+        flex: 1 1 auto;
+        min-width: 0;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+
+      .item-name {
+        width: 100%;
+        margin: 0;
+        color: #000;
+        font-size: 18px;
+        line-height: normal;
+        letter-spacing: -0.18px;
+        word-break: keep-all;
+      }
+
+      .status-button {
+        min-width: 82px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        color: #000;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 50px;
+        box-shadow: var(--shadow-wh);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: -0.12px;
+        white-space: nowrap;
+      }
+
+      .status-button.is-sold-out {
+        background: var(--accent-soft);
+      }
+
+      .bottom-actions {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        z-index: 8;
+        display: none;
+        width: min(100%, 402px);
+        height: calc(60px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 -5px 50px rgba(0, 0, 0, 0.3);
+        transform: translateX(-50%);
+      }
+
+      .bottom-actions.is-visible {
+        display: flex;
+      }
+
+      .bottom-actions button {
+        flex: 1 1 50%;
+        height: 60px;
+        display: grid;
+        place-items: center;
+        padding: 0 20px;
+        color: #000;
+        font-size: 18px;
+        line-height: normal;
+        letter-spacing: -0.18px;
+      }
+
+      .bulk-button {
+        background: var(--bottom-idle);
+      }
+
+      .bulk-button.is-release {
+        background: var(--bottom-muted);
+      }
+
+      .save-button {
+        background: var(--accent);
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: none;
+        place-items: center;
+        width: min(100%, 402px);
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal.is-visible {
+        display: grid;
+      }
+
+      .modal-card {
+        width: 280px;
+        height: 300px;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #fff;
+        border-radius: 20px;
+      }
+
+      .modal.is-error .modal-card {
+        background: #df6b6b;
+      }
+
+      .modal-message {
+        margin: 0;
+        color: #000;
+        font-size: 24px;
+        line-height: normal;
+        letter-spacing: -0.24px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .modal.is-error .modal-message {
+        color: #fff;
+      }
+
+      .empty-state {
+        width: 100%;
+        padding-top: 60px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.5;
+        letter-spacing: -0.18px;
+        text-align: center;
+      }
+
+      @media (max-width: 380px) {
+        .screen {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        .category-tabs {
+          width: calc(100% + 40px);
+          margin-left: -20px;
+          margin-right: -20px;
+        }
+
+        .admin-item {
+          gap: 14px;
+        }
+
+        .item-thumb {
+          width: 88px;
+          height: 88px;
+          border-radius: 18px;
+        }
+
+        .item-body {
+          min-height: 88px;
+        }
+
+        .item-name {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="admin-top">
+        <button class="back-button" id="backButton" type="button" aria-label="이전"></button>
+        <img class="brand-mark" src="./images/main/logo_b.svg" alt="커빙" />
+      </header>
+
+      <section class="screen login-screen is-active" id="loginScreen">
+        <h1 class="page-title">관리자페이지 로그인</h1>
+        <form class="login-form" id="loginForm">
+          <div class="login-row">
+            <label for="adminId">ID</label>
+            <input id="adminId" type="text" autocomplete="username" />
+          </div>
+          <div class="login-row">
+            <label for="adminPassword">PW</label>
+            <input id="adminPassword" type="password" autocomplete="current-password" />
+          </div>
+          <button class="login-submit" type="submit">로그인</button>
+        </form>
+      </section>
+
+      <section class="screen menu-screen" id="menuScreen">
+        <h1 class="page-title">메뉴 판매상태변경하기</h1>
+        <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="메뉴 카테고리"></div>
+        <div class="menu-list" id="menuList" aria-label="메뉴 판매상태 목록"></div>
+      </section>
+
+      <div class="bottom-actions" id="bottomActions">
+        <button class="bulk-button" id="bulkButton" type="button">전체품절</button>
+        <button class="save-button" id="saveButton" type="button">저장하기</button>
+      </div>
+
+      <div class="modal" id="resultModal" role="alertdialog" aria-live="assertive" aria-modal="true">
+        <div class="modal-card">
+          <p class="modal-message" id="modalMessage"></p>
+        </div>
+      </div>
+    </main>
+
+    <script src="./menu-status-config.js"></script>
+    <script>
+      const SOLD_OUT_STORAGE_KEY = "cb-sold-out-menu-ids";
+      const LOGIN_STORAGE_KEY = "cb-admin-logged-in";
+      const MENU_STATUS_API_URL = window.CB_MENU_STATUS_API_URL || "";
+      const MENU_STATUS_API_TOKEN = window.CB_MENU_STATUS_API_TOKEN || "";
+      const ADMIN_ID = "admin";
+      const ADMIN_PASSWORD = "cbadmin";
+
+      const state = {
+        category: "bingsu",
+        categories: [],
+        items: [],
+        savedSoldOutIds: new Set(),
+        draftSoldOutIds: new Set(),
+      };
+
+      const loginScreen = document.querySelector("#loginScreen");
+      const menuScreen = document.querySelector("#menuScreen");
+      const loginForm = document.querySelector("#loginForm");
+      const adminId = document.querySelector("#adminId");
+      const adminPassword = document.querySelector("#adminPassword");
+      const backButton = document.querySelector("#backButton");
+      const categoryTabs = document.querySelector("#categoryTabs");
+      const menuList = document.querySelector("#menuList");
+      const bottomActions = document.querySelector("#bottomActions");
+      const bulkButton = document.querySelector("#bulkButton");
+      const saveButton = document.querySelector("#saveButton");
+      const resultModal = document.querySelector("#resultModal");
+      const modalMessage = document.querySelector("#modalMessage");
+      let modalTimer;
+
+      function fetchJsonp(url, params = {}) {
+        return new Promise((resolve, reject) => {
+          const callbackName = `cbAdminJsonp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+          const script = document.createElement("script");
+          const query = new URLSearchParams({ ...params, callback: callbackName });
+          const separator = url.includes("?") ? "&" : "?";
+          let timeoutId;
+
+          window[callbackName] = (payload) => {
+            clearTimeout(timeoutId);
+            script.remove();
+            delete window[callbackName];
+            resolve(payload);
+          };
+
+          script.onerror = () => {
+            clearTimeout(timeoutId);
+            script.remove();
+            delete window[callbackName];
+            reject(new Error("판매상태 서버에 연결하지 못했습니다."));
+          };
+
+          timeoutId = setTimeout(() => {
+            script.remove();
+            delete window[callbackName];
+            reject(new Error("판매상태 서버 응답 시간이 초과되었습니다."));
+          }, 8000);
+
+          script.src = `${url}${separator}${query.toString()}`;
+          document.head.append(script);
+        });
+      }
+
+      function readSoldOutIds() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(SOLD_OUT_STORAGE_KEY) || "[]");
+          return new Set(Array.isArray(saved) ? saved : []);
+        } catch {
+          return new Set();
+        }
+      }
+
+      function saveLocalSoldOutIds(ids) {
+        localStorage.setItem(SOLD_OUT_STORAGE_KEY, JSON.stringify([...ids].sort()));
+      }
+
+      async function loadRemoteSoldOutIds() {
+        if (!MENU_STATUS_API_URL) return false;
+        const payload = await fetchJsonp(MENU_STATUS_API_URL, { action: "status" });
+        if (!payload?.ok || !Array.isArray(payload.soldOutIds)) {
+          throw new Error(payload?.error || "판매상태 응답이 올바르지 않습니다.");
+        }
+        state.savedSoldOutIds = new Set(payload.soldOutIds);
+        state.draftSoldOutIds = new Set(payload.soldOutIds);
+        saveLocalSoldOutIds(state.savedSoldOutIds);
+        return true;
+      }
+
+      async function saveRemoteSoldOutIds(ids) {
+        if (!MENU_STATUS_API_URL) {
+          saveLocalSoldOutIds(ids);
+          return { ok: true, localOnly: true };
+        }
+
+        const payload = await fetchJsonp(MENU_STATUS_API_URL, {
+          action: "save",
+          token: MENU_STATUS_API_TOKEN,
+          ids: [...ids].sort().join(","),
+        });
+        if (!payload?.ok) {
+          throw new Error(payload?.error || "판매상태 변경을 적용할 수 없습니다.");
+        }
+        saveLocalSoldOutIds(ids);
+        return payload;
+      }
+
+      function showLogin() {
+        loginScreen.classList.add("is-active");
+        menuScreen.classList.remove("is-active");
+        bottomActions.classList.remove("is-visible");
+      }
+
+      function showMenu() {
+        loginScreen.classList.remove("is-active");
+        menuScreen.classList.add("is-active");
+        bottomActions.classList.add("is-visible");
+      }
+
+      function showResult(type) {
+        clearTimeout(modalTimer);
+        resultModal.classList.toggle("is-error", type === "error");
+        modalMessage.innerHTML =
+          type === "error"
+            ? "판매상태 변경을<br />적용할 수 없습니다."
+            : "판매상태 변경이<br />적용되었습니다.";
+        resultModal.classList.add("is-visible");
+        modalTimer = setTimeout(() => resultModal.classList.remove("is-visible"), 1400);
+      }
+
+      function extractMenuData(source) {
+        const start = source.indexOf("const menuSubCategories");
+        const end = source.indexOf("const allMenusSoldOut");
+        if (start === -1 || end === -1 || end <= start) {
+          throw new Error("메뉴 데이터를 찾을 수 없습니다.");
+        }
+        const block = source.slice(start, end);
+        return Function(`${block}; return { categories, menuImages };`)();
+      }
+
+      function flattenMenuData(data) {
+        state.categories = data.categories.map(({ id, label }) => ({ id, label }));
+        state.items = data.categories.flatMap((category) =>
+          category.items.map(([id, name, price, desc, color, subCategory]) => ({
+            id,
+            name,
+            category: category.id,
+            categoryLabel: category.label,
+            image: data.menuImages[id],
+          })),
+        );
+        state.category = state.categories[0]?.id || "bingsu";
+      }
+
+      function visibleItems() {
+        return state.items.filter((item) => item.category === state.category);
+      }
+
+      function allVisibleSoldOut() {
+        const items = visibleItems();
+        return items.length > 0 && items.every((item) => state.draftSoldOutIds.has(item.id));
+      }
+
+      function renderTabs() {
+        categoryTabs.innerHTML = state.categories
+          .map(
+            (category) =>
+              `<button class="tab-button ${category.id === state.category ? "is-active" : ""}" type="button" role="tab" data-category="${category.id}">${category.label}</button>`,
+          )
+          .join("");
+      }
+
+      function renderMenu() {
+        const items = visibleItems();
+        if (!items.length) {
+          menuList.innerHTML = `<div class="empty-state">표시할 메뉴가 없습니다.</div>`;
+          renderBulkButton();
+          return;
+        }
+
+        menuList.innerHTML = items
+          .map((item) => {
+            const soldOut = state.draftSoldOutIds.has(item.id);
+            return `
+              <article class="admin-item">
+                <div class="item-thumb">
+                  ${item.image ? `<img src="${item.image}" alt="${item.name}" loading="lazy" />` : ""}
+                </div>
+                <div class="item-body">
+                  <p class="item-name">${item.name}</p>
+                  <button class="status-button ${soldOut ? "is-sold-out" : ""}" type="button" data-toggle="${item.id}">
+                    ${soldOut ? "품절해제" : "품절처리"}
+                  </button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+        renderBulkButton();
+      }
+
+      function renderBulkButton() {
+        const release = allVisibleSoldOut();
+        bulkButton.textContent = release ? "전체품절 해제" : "전체품절";
+        bulkButton.classList.toggle("is-release", release);
+      }
+
+      function render() {
+        renderTabs();
+        renderMenu();
+      }
+
+      async function init() {
+        state.savedSoldOutIds = readSoldOutIds();
+        state.draftSoldOutIds = new Set(state.savedSoldOutIds);
+
+        try {
+          const response = await fetch("./app.js", { cache: "no-store" });
+          if (!response.ok) throw new Error("app.js를 불러오지 못했습니다.");
+          flattenMenuData(extractMenuData(await response.text()));
+          render();
+        } catch (error) {
+          menuList.innerHTML = `<div class="empty-state">메뉴 데이터를 불러오지 못했습니다.</div>`;
+          console.error(error);
+        }
+
+        try {
+          const loaded = await loadRemoteSoldOutIds();
+          if (loaded) renderMenu();
+        } catch (error) {
+          console.warn(error);
+          showResult("error");
+        }
+
+        if (sessionStorage.getItem(LOGIN_STORAGE_KEY) === "1") {
+          showMenu();
+        } else {
+          showLogin();
+        }
+      }
+
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (adminId.value.trim() === ADMIN_ID && adminPassword.value === ADMIN_PASSWORD) {
+          sessionStorage.setItem(LOGIN_STORAGE_KEY, "1");
+          adminPassword.value = "";
+          showMenu();
+        } else {
+          showResult("error");
+        }
+      });
+
+      backButton.addEventListener("click", () => {
+        if (menuScreen.classList.contains("is-active")) {
+          sessionStorage.removeItem(LOGIN_STORAGE_KEY);
+          showLogin();
+          return;
+        }
+        window.location.href = "./index.html";
+      });
+
+      categoryTabs.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-category]");
+        if (!button) return;
+        state.category = button.dataset.category;
+        render();
+      });
+
+      menuList.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-toggle]");
+        if (!button) return;
+        const id = button.dataset.toggle;
+        if (state.draftSoldOutIds.has(id)) {
+          state.draftSoldOutIds.delete(id);
+        } else {
+          state.draftSoldOutIds.add(id);
+        }
+        renderMenu();
+      });
+
+      bulkButton.addEventListener("click", () => {
+        const release = allVisibleSoldOut();
+        visibleItems().forEach((item) => {
+          if (release) {
+            state.draftSoldOutIds.delete(item.id);
+          } else {
+            state.draftSoldOutIds.add(item.id);
+          }
+        });
+        renderMenu();
+      });
+
+      saveButton.addEventListener("click", async () => {
+        saveButton.disabled = true;
+        try {
+          await saveRemoteSoldOutIds(state.draftSoldOutIds);
+          state.savedSoldOutIds = new Set(state.draftSoldOutIds);
+          showResult("success");
+        } catch (error) {
+          state.draftSoldOutIds = new Set(state.savedSoldOutIds);
+          renderMenu();
+          console.warn(error);
+          showResult("error");
+        } finally {
+          saveButton.disabled = false;
+        }
+      });
+
+      resultModal.addEventListener("click", () => {
+        clearTimeout(modalTimer);
+        resultModal.classList.remove("is-visible");
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key !== SOLD_OUT_STORAGE_KEY) return;
+        state.savedSoldOutIds = readSoldOutIds();
+        state.draftSoldOutIds = new Set(state.savedSoldOutIds);
+        renderMenu();
+      });
+
+      init();
+    </script>
+  </body>
+</html>

@@ -97,7 +97,6 @@ const categories = [
       ["lemon-ade", "레몬에이드", 5000, "상큼한 레몬 향의 에이드", "#eccd55", "ice"],
       ["grapefruit-ade", "자몽에이드", 5000, "쌉싸름하고 상큼한 자몽 에이드", "#ef6f89", "ice"],
       ["green-grape-ade", "청포도에이드", 5000, "청량한 청포도 향의 에이드", "#78c850", "ice"],
-      ["blue-lemon-ade", "블루레몬에이드", 5000, "청량한 블루레몬 향의 에이드", "#56a5dc", "ice"],
       ["milk-tea-iceup", "밀크티", 6000, "향긋한 홍차와 우유가 부드러운 밀크티", "#b9875f", "iceup"],
       ["taro-milk-tea-iceup", "타로밀크티", 6000, "고소하고 달콤한 타로 풍미의 밀크티", "#a674d6", "iceup"],
       ["green-latte-iceup", "녹차라떼", 6000, "쌉싸름한 녹차와 우유가 만난 부드러운 라떼", "#6f9f46", "iceup"],
@@ -112,7 +111,6 @@ const categories = [
       ["lemon-ade-iceup", "레몬에이드", 6000, "상큼한 레몬 향의 에이드", "#eccd55", "iceup"],
       ["grapefruit-ade-iceup", "자몽에이드", 6000, "쌉싸름하고 상큼한 자몽 에이드", "#ef6f89", "iceup"],
       ["green-grape-ade-iceup", "청포도에이드", 6000, "청량한 청포도 향의 에이드", "#78c850", "iceup"],
-      ["blue-lemon-ade-iceup", "블루레몬에이드", 6000, "청량한 블루레몬 향의 에이드", "#56a5dc", "iceup"],
       ["milk-tea-hot", "밀크티", 5000, "따뜻하게 즐기는 부드러운 밀크티", "#b9875f", "hot"],
       ["taro-milk-tea-hot", "타로밀크티", 5000, "따뜻한 타로 풍미의 밀크티", "#a674d6", "hot"],
       ["green-latte-hot", "녹차라떼", 5000, "따뜻하고 쌉싸름한 녹차라떼", "#6f9f46", "hot"],
@@ -188,7 +186,6 @@ const menuImages = {
   "lemon-ade": "./images/menu/lemonade.png",
   "grapefruit-ade": "./images/menu/grapefruit-ade.png",
   "green-grape-ade": "./images/menu/green-grape-ade.png",
-  "blue-lemon-ade": "./images/menu/blue-lemonade.png",
   "draft-beer": "./images/menu/draft-beer.png",
   "can-beer": "./images/menu/canned-beer.png",
   "extra-cup": "./images/menu/extra-cup.png",
@@ -225,11 +222,89 @@ Object.assign(menuImages, {
   "lemon-ade-iceup": menuImages["lemon-ade"],
   "grapefruit-ade-iceup": menuImages["grapefruit-ade"],
   "green-grape-ade-iceup": menuImages["green-grape-ade"],
-  "blue-lemon-ade-iceup": menuImages["blue-lemon-ade"],
 });
 
 const allMenusSoldOut = false;
-const soldOutMenuIds = new Set([]);
+const soldOutStorageKey = "cb-sold-out-menu-ids";
+const menuStatusApiUrl = window.CB_MENU_STATUS_API_URL || "";
+
+function readSoldOutMenuIds() {
+  try {
+    const savedIds = JSON.parse(localStorage.getItem(soldOutStorageKey) || "[]");
+    return Array.isArray(savedIds) ? savedIds : [];
+  } catch {
+    return [];
+  }
+}
+
+const soldOutMenuIds = new Set(readSoldOutMenuIds());
+
+function saveSoldOutMenuIds(ids) {
+  try {
+    localStorage.setItem(soldOutStorageKey, JSON.stringify([...ids].sort()));
+  } catch {
+    // Local cache is best-effort only.
+  }
+}
+
+function fetchJsonp(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `cbJsonp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement("script");
+    const query = new URLSearchParams({ ...params, callback: callbackName });
+    const separator = url.includes("?") ? "&" : "?";
+    let timeoutId;
+
+    window[callbackName] = (payload) => {
+      clearTimeout(timeoutId);
+      script.remove();
+      delete window[callbackName];
+      resolve(payload);
+    };
+
+    script.onerror = () => {
+      clearTimeout(timeoutId);
+      script.remove();
+      delete window[callbackName];
+      reject(new Error("판매상태 데이터를 불러오지 못했습니다."));
+    };
+
+    timeoutId = setTimeout(() => {
+      script.remove();
+      delete window[callbackName];
+      reject(new Error("판매상태 데이터 요청 시간이 초과되었습니다."));
+    }, 6000);
+
+    script.src = `${url}${separator}${query.toString()}`;
+    document.head.append(script);
+  });
+}
+
+function applySoldOutMenuIds(ids) {
+  const nextSoldOutIds = new Set(ids);
+  menuItems.forEach((item) => {
+    item.soldOut = allMenusSoldOut || nextSoldOutIds.has(item.id) || item.defaultSoldOut;
+  });
+  saveSoldOutMenuIds(nextSoldOutIds);
+}
+
+async function loadRemoteSoldOutMenuIds() {
+  if (!menuStatusApiUrl) return;
+  try {
+    const payload = await fetchJsonp(menuStatusApiUrl, { action: "status" });
+    if (!payload?.ok || !Array.isArray(payload.soldOutIds)) {
+      throw new Error(payload?.error || "판매상태 응답이 올바르지 않습니다.");
+    }
+    applySoldOutMenuIds(payload.soldOutIds);
+    renderMenu();
+    updateTotal();
+    if (state.screen === "cart") updateCart();
+    if (state.screen === "review") updateReview();
+    if (state.screen === "placeOrder") updatePlaceOrder();
+  } catch (error) {
+    console.warn(error);
+  }
+}
 
 const menuItems = categories.flatMap((category) =>
   category.items.map(([id, name, price, desc, color, subCategory, soldOut]) => ({
@@ -240,6 +315,7 @@ const menuItems = categories.flatMap((category) =>
     color,
     category: category.id,
     subCategory,
+    defaultSoldOut: Boolean(soldOut),
     soldOut: allMenusSoldOut || soldOutMenuIds.has(id) || Boolean(soldOut),
     image: menuImages[id],
   })),
@@ -1218,9 +1294,24 @@ endHomeButton.addEventListener("click", () => goTo("home"));
   });
 });
 
+function syncSoldOutMenuIds() {
+  applySoldOutMenuIds(readSoldOutMenuIds());
+}
+
+window.addEventListener("storage", (event) => {
+  if (event.key !== soldOutStorageKey) return;
+  syncSoldOutMenuIds();
+  renderMenu();
+  updateTotal();
+  if (state.screen === "cart") updateCart();
+  if (state.screen === "review") updateReview();
+  if (state.screen === "placeOrder") updatePlaceOrder();
+});
+
 renderSeatOptions();
 renderTabs();
 renderSubTabs();
 renderMenu();
+loadRemoteSoldOutMenuIds();
 startHeroSlider();
 goTo("home");
