@@ -1042,7 +1042,7 @@ textarea {
   gap: 20px;
   min-height: 0;
   margin: 0 -30px;
-  padding: 0 30px calc(88px + env(safe-area-inset-bottom));
+  padding: 0 30px calc(108px + env(safe-area-inset-bottom));
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: thin;
